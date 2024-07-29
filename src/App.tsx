@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
 import './App.css'
 
-function App() {
- 
+import { useAppSelector } from './redux/hooks'
+import useRoutesElement from './routes/useRoutesElement'
 
-  return (
-    <>
-      <div>
-        Home
-      </div>
-    </>
-  )
+function App() {
+
+  const routes = useRoutesElement();
+
+  return <>{routes}</>
 }
 
 export default App

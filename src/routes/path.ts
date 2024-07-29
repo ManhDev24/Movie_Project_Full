@@ -7,6 +7,8 @@ export const PATH = {
     BOOKING:"/booking",
     PROFILE:"/profile",
     ADMIN:"/admin",
-    ADMIN_USER:"/admin_user",
-    ADMIN_MOVIE:"/admin_movie"
+    ADMIN_USER:"/admin/user",
+    ADMIN_MOVIE:"/admin/movie",
+    ADMIN_CINEMA:"/admin/cinema",
+    ADMIN_ACCOUNT_SETTINGS:"/admin/account"
 }

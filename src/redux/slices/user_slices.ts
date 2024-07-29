@@ -1,13 +1,16 @@
-import { CurrentUser } from './../../interface/index';
+import { getLocalStorage } from '../../utils';
+import { CurrentUser } from '../../interface/user.interface';
 import { createSlice } from "@reduxjs/toolkit";
 
+
+const userLocalStorage = getLocalStorage<CurrentUser>('user');
 
 type UserState = {
     currentUser:CurrentUser | null;
 }
 
 const initialState:UserState = {
-    currentUser:null
+    currentUser:userLocalStorage
 }
 
 const userSlices = createSlice({
