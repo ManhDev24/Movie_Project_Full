@@ -6,7 +6,6 @@ import { CurrentUser } from '../../interface/user.interface'
 
 const Navbar = () => {
   const user = useSelector((state: { user: { currentUser: CurrentUser } }) => state.user.currentUser)
-  console.log(user)
   const menu = (
     <Menu>
       <Menu.Item>
