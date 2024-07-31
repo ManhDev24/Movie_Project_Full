@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { Controller, set, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';

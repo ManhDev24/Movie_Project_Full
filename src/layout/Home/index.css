@@ -1,0 +1,23 @@
+/* file: custom-carousel.css */
+
+.custom-carousel .slick-prev,
+.custom-carousel .slick-next {
+  @apply w-24 h-24 text-4xl text-white !important; /* Tăng kích thước nút và mũi tên */
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Màu nền mờ để nổi bật hơn */
+  border-radius: 50% !important; /* Để các nút hình tròn */
+  display: flex !important; /* Sử dụng Flexbox để căn giữa */
+  align-items: center !important; /* Căn giữa theo chiều dọc */
+  justify-content: center !important; /* Căn giữa theo chiều ngang */
+  transition: background-color 0.3s, transform 0.3s !important; /* Thêm hiệu ứng chuyển tiếp cho hover */
+}
+
+.custom-carousel .slick-prev:hover,
+.custom-carousel .slick-next:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important; /* Màu nền khi hover */
+  transform: scale(1.2) !important; /* Phóng to nút khi hover */
+}
+
+.custom-carousel .slick-prev:before,
+.custom-carousel .slick-next:before {
+  @apply text-white text-4xl !important; /* Kích thước mũi tên */
+}
