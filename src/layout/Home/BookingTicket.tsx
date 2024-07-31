@@ -3,7 +3,8 @@ import { Button, Dropdown, Menu, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { movieApi } from '../../apis/movie.api'
-import { DataListMovie, Movie } from '../../interface/movie.interface'
+import { DataListMovie } from '../../interface/movie.interface'
+import { LoadingPage } from '../../modules/Loading'
 
 const BookingTicket = () => {
   const [tickets, setTickets] = useState<DataListMovie>([])
@@ -14,7 +15,7 @@ const BookingTicket = () => {
   const [showtimes, setShowtimes] = useState<any[]>([])
   const [selectedShowtime, setSelectedShowtime] = useState<string>('Chọn Ngày')
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['movie'],
     queryFn: () => movieApi.getAllMovie<DataListMovie>(),
   })
@@ -51,15 +52,21 @@ const BookingTicket = () => {
     }
   }, [movieDetails, selectedCinema])
 
+  const handleMovieSelect = (movie: any) => {
+    setSelectedMovie(movie.tenPhim)
+    setSelectedMovieId(movie.maPhim)
+    setSelectedCinema('Chọn Rạp')
+    setSelectedShowtime('Chọn Ngày')
+    setCinemas([])
+    setShowtimes([])
+  }
+
   const movieMenu = (
     <Menu
       items={tickets.map((movie) => ({
         key: movie.maPhim,
         label: movie.tenPhim,
-        onClick: () => {
-          setSelectedMovie(movie.tenPhim)
-          setSelectedMovieId(movie.maPhim)
-        },
+        onClick: () => handleMovieSelect(movie),
       }))}
     />
   )
@@ -97,6 +104,10 @@ const BookingTicket = () => {
       }))}
     />
   )
+
+  if (isLoading) {
+    return <LoadingPage />
+  }
 
   return (
     <div className="flex justify-center items-center space-x-4 mt-4">
