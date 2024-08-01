@@ -11,12 +11,14 @@ import {
   VideoCameraOutlined,
   AccountBookOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface AdminLayoutProps{
     children:React.ReactNode
 }
 const AdminLayout: FC<AdminLayoutProps> = ({children}) => {
+  const {pathname} = useLocation();
+  
   const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -33,7 +35,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({children}) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[PATH.ADMIN_USER]}
+          defaultSelectedKeys={[pathname||PATH.ADMIN_USER]}
           onSelect={(items) => {
             navigate(items.key);
           }}
@@ -81,6 +83,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({children}) => {
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflowY:"scroll"
           }}
         >
           {children}
