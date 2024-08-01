@@ -20,3 +20,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </Provider>
   </React.StrictMode>
 );
+// POST:SỬ DỤNG useMutation
+// GET:sử dụng useQuery
