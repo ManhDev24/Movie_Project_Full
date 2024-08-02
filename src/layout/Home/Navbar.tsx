@@ -3,9 +3,11 @@ import { Menu, Dropdown, Button } from 'antd'
 import { DownOutlined, UserOutlined } from '@ant-design/icons'
 import { PATH } from '../../routes/path'
 import { CurrentUser } from '../../interface/user.interface'
+import { useSignOut } from '../../redux/hooks'
 
 const Navbar = () => {
   const user = useSelector((state: { user: { currentUser: CurrentUser } }) => state.user.currentUser)
+  const { signOutUser } = useSignOut()
   const menu = (
     <Menu>
       <Menu.Item>
@@ -18,7 +20,9 @@ const Navbar = () => {
         <a href="#">History Purchase</a>
       </Menu.Item>
       <Menu.Item>
-        <a href="#">Sign out</a>
+        <a type="primary" onClick={signOutUser}>
+          Sign Out
+        </a>
       </Menu.Item>
     </Menu>
   )
@@ -42,7 +46,24 @@ const Navbar = () => {
               </Dropdown>
             </div>
           ) : (
-            <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">{/* Phần này đã được loại bỏ */}</div>
+            <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+              <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li className="flex space-x-3 md:space-x-8">
+                  <a
+                    href={PATH.LOGIN}
+                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
+                  >
+                    Đăng nhập
+                  </a>
+                  <a
+                    href={PATH.REGISTER}
+                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
+                  >
+                    Đăng Ký
+                  </a>
+                </li>
+              </ul>
+            </div>
           )}
 
           <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">

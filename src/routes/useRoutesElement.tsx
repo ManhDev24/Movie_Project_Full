@@ -17,7 +17,6 @@ import { HomeLayout } from '../layout/Home'
 
 const RejectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
-  console.log('currentUser', currentUser)
   if (currentUser === null) {
     return <Outlet></Outlet>
   }
