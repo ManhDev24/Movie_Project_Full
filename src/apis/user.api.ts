@@ -4,7 +4,7 @@ import { UserLoginRequest } from '../interface/user.interface'
 import fetcher from './fetcher'
 import { ApiWelcome } from '../interface'
 import { register } from '../interface/register.inteface'
-import { GROUP_CODE, PAGE_SIZE } from '../constant'
+import { PAGE_SIZE } from '../constant'
 export const userAPI = {
   login: async (data: UserLoginRequest) => {
     try {
