@@ -35,4 +35,22 @@ export const movieApi = {
       throw Error(error.response.data.content)
     }
   },
+  addMovie: async (payload:any)=>{
+    try{
+      const response = await fetcher.post("/QuanLyPhim/ThemPhimUploadHinh",payload);
+      return response.data.content;
+    }
+    catch(error:any){
+      throw Error(error.response.data.content);
+    }
+  },
+  deleteMovie:async(idMovie:any)=>{
+    try{
+      const respone = await fetcher.delete(`/QuanLyPhim/XoaPhim?MaPhim=${idMovie}`);
+      return respone.data.content
+    }
+    catch(error:any){
+      throw Error(error.response.data.content);
+    }
+  }
 }
