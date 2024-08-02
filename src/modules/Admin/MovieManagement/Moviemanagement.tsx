@@ -50,8 +50,8 @@ const Moviemanagement = () => {
   ;
   
   // add
-  const { mutate: handleAddMovieApi, isPending } = useMutation({
-    mutationFn: movieApi.addMovie,
+  const { mutate: handleAddMovieApi, isPending:isCreating } = useMutation({
+    mutationFn:(payload:FormData) => movieApi.addMovie(payload),
     onSuccess: (data) => {
       console.log(data);
     },
@@ -179,7 +179,7 @@ const Moviemanagement = () => {
             <Button
               type="primary"
               className="mr-2"
-              onClick={() => alert(record.maPhim)}
+              onClick={() => openModal()}
             >
               Edit
             </Button>
@@ -220,6 +220,7 @@ const Moviemanagement = () => {
     formData.append("maNhom", GROUP_CODE);
     formData.append("sapChieu", formValues.trangThai ? "false" : "true");
     formData.append("dangChieu", formValues.trangThai ? "true" : "false");
+    formData.append("ngayKhoiChieu","10/08/2024");
     handleAddMovieApi(formData);
   };
 
@@ -264,7 +265,7 @@ const Moviemanagement = () => {
           }}
         />
       </div>
-      <AddOrEditMovie dataEdit={undefined} isOpen={isOpen} isPending={isPending} onCloseModal={closeModal} onSubmit={onSubmit}/>
+      <AddOrEditMovie dataEdit={undefined} isOpen={isOpen} isPending={isCreating} onCloseModal={closeModal} onSubmit={onSubmit}/>
     </div>
   );
 };

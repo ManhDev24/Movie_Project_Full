@@ -4,6 +4,7 @@ import {
   Col,
   DatePicker,
   Form,
+  GetProps,
   Input,
   Modal,
   Radio,
@@ -21,6 +22,10 @@ import {
   SyncOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { current } from "@reduxjs/toolkit";
+import dayjs from 'dayjs';
+import { RangePickerProps } from "antd/es/date-picker";
+import { Movie } from "../../../interface/movie.interface";
 
 export interface FormValues {
   tenPhim: string;
@@ -29,7 +34,7 @@ export interface FormValues {
   trangThai: boolean;
   hot: boolean;
   danhGia: string;
-  ngayKhoiChieu: string;
+  ngayKhoiChieu: any;
   hinhAnh: any;
 }
 
@@ -39,12 +44,12 @@ interface AddOrEditMovieModalProps{
     onCloseModal:()=>void;
     isPending:boolean;
     onSubmit:(formValues:FormValues)=>void;
-    dataEdit?:any
+    dataEdit?:Movie
 }
 
 
 const AddOrEditMovie:FC<AddOrEditMovieModalProps> = ({isOpen,onCloseModal,isPending,onSubmit,dataEdit}) => {
-  const { handleSubmit, control, setValue, watch } = useForm<FormValues>({
+  const { handleSubmit, control, setValue, watch,reset } = useForm<FormValues>({
     defaultValues: {
       tenPhim: "",
       trailer: "",
@@ -64,10 +69,29 @@ const AddOrEditMovie:FC<AddOrEditMovieModalProps> = ({isOpen,onCloseModal,isPend
       setValue('trangThai', dataEdit.dangChieu);
       setValue('hot', dataEdit.hot);
       setValue('danhGia', dataEdit.danhGia.toString());
-    //   setValue("ngayKhoiChieu", dayjs(new Date(dataEdit.ngayKhoiChieu)));
+      setValue("ngayKhoiChieu", dayjs(new Date(dataEdit.ngayKhoiChieu)));
     }
   }, [dataEdit]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      reset()
+    }
+
+  }, [isOpen]);
+
   const watchhinhAnh = watch("hinhAnh");
+  const statusMovie = watch("trangThai");
+  type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf('day');
+  };
+  
+  const disabledDateShowing: RangePickerProps['disabledDate'] = (current) => {
+    // Can not select days before today and today
+    return current && current > dayjs().endOf('day');
+  };
 //   const onSubmit = (values: FormValues) => {
 //     console.log(values);
 //   };
@@ -196,6 +220,8 @@ const AddOrEditMovie:FC<AddOrEditMovieModalProps> = ({isOpen,onCloseModal,isPend
                   className="mt-1 w-full"
                   placeholder="DD/MM/YYYY"
                   format={"DD/MM/YYYY"}
+                  disabledDate={!statusMovie ? disabledDate : disabledDateShowing}
+                  
                 ></DatePicker>
               )}
             />
@@ -251,7 +277,7 @@ const AddOrEditMovie:FC<AddOrEditMovieModalProps> = ({isOpen,onCloseModal,isPend
             />
           </Col>
           <Col span={24} className="flex justify-end">
-            <Button size="large" type="default" className="mt-3">
+            <Button size="large" type="default" className="mt-3" onClick={onCloseModal} >
               Cancel
             </Button>
             <Button

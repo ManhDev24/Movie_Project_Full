@@ -37,7 +37,12 @@ export const movieApi = {
   },
   addMovie: async (payload:any)=>{
     try{
-      const response = await fetcher.post("/QuanLyPhim/ThemPhimUploadHinh",payload);
+      const response = await fetcher.post("/QuanLyPhim/ThemPhimUploadHinh",payload,{
+        headers:{
+          'Content-Type':'multipart/form-data',
+        }
+      });
+
       return response.data.content;
     }
     catch(error:any){
