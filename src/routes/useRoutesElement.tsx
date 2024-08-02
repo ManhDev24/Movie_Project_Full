@@ -47,7 +47,6 @@ const useRoutesElement = () => {
       children: [
         {
           path: PATH.LOGIN,
-
           element: (
             <AuthenLayout>
               <Login></Login>

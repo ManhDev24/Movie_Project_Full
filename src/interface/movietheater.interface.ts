@@ -1,3 +1,5 @@
+// movietheater.interface.ts
+
 export interface Showtime {
   maLichChieu: string
   maRap: string
@@ -19,4 +21,15 @@ export interface HeThongRap {
   tenHeThongRap: string
   logo: string
   cumRapChieu: CumRap[]
+}
+export interface ThongTinCumRap {
+  maCumRap: string
+  tenCumRap: string
+  diaChi: string
+  danhSachRap: CinemaListItem[]
+}
+
+export interface CinemaListItem {
+  maRap: string
+  tenRap: string
 }
