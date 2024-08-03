@@ -9,9 +9,10 @@ import { useState } from "react";
 const UserManagement = () => {
   const [currentPage,setCurrentPage] = useState(1);
   const [pageSize, setCurrentPageSize]= useState(PAGE_SIZE);
+  
   const {data,isLoading,error} = useQuery({
     queryKey:['list-user',{currentPage,pageSize}],
-    queryFn:()=>userAPI.getListUser({page:currentPage , pageSize}),
+    queryFn:()=>userAPI.getAllUser({page:currentPage , pageSize}),
   })
   console.log('currentPage',currentPage);
   const totalPages = data?.totalPages || 0;

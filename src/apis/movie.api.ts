@@ -1,5 +1,6 @@
 import { GROUP_CODE, PAGE_SIZE } from '../constant'
 import { ApiWelcome } from '../interface'
+import { Movie } from '../interface/movie.interface';
 import fetcher from './fetcher'
 
 export const movieApi = {
@@ -57,5 +58,13 @@ export const movieApi = {
     catch(error:any){
       throw Error(error.response.data.content);
     }
-  }
+  },
+  editMovie: async (payload: Movie) => {
+    try {
+      const response = await fetcher.post('/QuanLyPhim/CapNhatPhimUpload', payload)
+      return response.data.content
+    } catch (error: any) {
+      throw Error(error.response.data.content)
+    }
+  },
 }

@@ -2,7 +2,9 @@ import { Button, Checkbox, Col, DatePicker, Form, Input, Modal, Radio, Row, Typo
 import React, { FC, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ClockCircleFilled, LoadingOutlined, PlusCircleFilled, PlusOutlined, SyncOutlined, DeleteOutlined } from '@ant-design/icons'
-
+import dayjs from 'dayjs';
+import { Movie } from '../../../interface/movie.interface';
+import { boolean } from 'yup';
 export interface FormValues {
   tenPhim: string
   trailer: string
@@ -10,7 +12,7 @@ export interface FormValues {
   trangThai: boolean
   hot: boolean
   danhGia: string
-  ngayKhoiChieu: string
+  ngayKhoiChieu: any
   hinhAnh: any
 }
 
@@ -18,12 +20,13 @@ interface AddOrEditMovieModalProps {
   isOpen: boolean
   onCloseModal: () => void
   isPending: boolean
+  isEditing: boolean
   onSubmit: (formValues: FormValues) => void
   dataEdit?: any
 }
 
-const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, isPending, onSubmit, dataEdit }) => {
-  const { handleSubmit, control, setValue, watch } = useForm<FormValues>({
+const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, isPending, onSubmit, dataEdit}) => {
+  const { handleSubmit, control, setValue, watch,reset  } = useForm<FormValues>({
     defaultValues: {
       tenPhim: '',
       trailer: '',
@@ -38,14 +41,21 @@ const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, is
   useEffect(() => {
     if (dataEdit) {
       setValue('tenPhim', dataEdit.tenPhim)
-      setValue('trailer', dataEdit.tenPhim)
+      setValue('trailer', dataEdit.trailer)
       setValue('moTa', dataEdit.moTa)
       setValue('trangThai', dataEdit.dangChieu)
       setValue('hot', dataEdit.hot)
       setValue('danhGia', dataEdit.danhGia.toString())
-      //   setValue("ngayKhoiChieu", dayjs(new Date(dataEdit.ngayKhoiChieu)));
+      setValue("ngayKhoiChieu", dayjs(new Date(dataEdit.ngayKhoiChieu)));
+      
     }
-  }, [dataEdit])
+  }, [dataEdit,setValue])
+  useEffect(() => {
+    if (!isOpen) {
+      reset()
+    }
+
+  }, [isOpen]);
   const watchhinhAnh = watch('hinhAnh')
   //   const onSubmit = (values: FormValues) => {
   //     console.log(values);
@@ -134,9 +144,9 @@ const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, is
                   }}
                 >
                   <button style={{ border: 0, background: 'none' }} type="button">
-                    {watchhinhAnh ? (
+                    {watchhinhAnh || dataEdit ? (
                       <div>
-                        <img className="w-[60px] h-[80px] object-cover" src={URL.createObjectURL(new Blob([watchhinhAnh]))} alt="" />
+                        <img className="w-[60px] h-[80px] object-cover" src={dataEdit?.hinhAnh || URL.createObjectURL(new Blob([watchhinhAnh]))} alt="" />
                         <div
                           className="absolute top-1 right-1"
                           onClick={(e) => {
@@ -159,11 +169,11 @@ const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, is
             />
           </Col>
           <Col span={24} className="flex justify-end">
-            <Button size="large" type="default" className="mt-3">
+            <Button size="large" type="default" className="mt-3" onClick={onCloseModal}>
               Cancel
             </Button>
             <Button loading={isPending} disabled={isPending} htmlType="submit" size="large" type="primary" className="mx-3 mt-3">
-              Add Movie
+                {dataEdit ? "Edit movie" : "Add movie"}
             </Button>
           </Col>
         </Row>

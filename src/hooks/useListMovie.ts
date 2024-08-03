@@ -1,14 +1,14 @@
-import { UndefinedInitialDataOptions, useQuery } from '@tanstack/react-query'
-import { movieApi } from '../apis/movie.api'
-import { DataListMovie } from '../interface/movie.interface'
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
+import { movieApi } from '../apis/movie.api';
+import { DataListMovie } from '../interface/movie.interface';
 
-type useListMovieOption = Omit<UndefinedInitialDataOptions<DataListMovie>, 'queryKey' | 'queryFn'>
+type UseListMoviesOptions = Omit<UseQueryOptions<DataListMovie>, 'queryKey' | 'queryFn'>;
 
-export const useListMovie = (currentPage: number, options?: useListMovieOption) => {
+export const useListMovies = (currentPage: number, options?: UseListMoviesOptions) => {
   const queryResult = useQuery({
-    queryKey: ['list-movie', { currentPage }],
+    queryKey: ['list-movies', { currentPage }],
     queryFn: () => movieApi.listMovie<DataListMovie>({ page: currentPage }),
     ...options,
-  })
-  return queryResult
-}
+  });
+  return queryResult;
+};

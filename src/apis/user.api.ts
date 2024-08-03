@@ -1,4 +1,4 @@
-import { UserItem } from './../interface/user.interface'
+import { DataListUser, UserItem } from './../interface/user.interface'
 import { CurrentUser } from '../interface/user.interface'
 import { UserLoginRequest } from '../interface/user.interface'
 import fetcher from './fetcher'
@@ -30,7 +30,7 @@ export const userAPI = {
       soPhanTuTrenTrang: payload.pageSize || PAGE_SIZE,
     }
     try {
-      const response = await fetcher.get<ApiWelcome<T>>('/QuanLyNguoiDung/LayDanhSachNguoiDungPhanTrang', {
+      const response = await fetcher.get<ApiWelcome<DataListUser>>('/QuanLyNguoiDung/LayDanhSachNguoiDungPhanTrang', {
         params,
       })
       return response.data.content

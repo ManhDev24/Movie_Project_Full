@@ -1,48 +1,59 @@
-import React from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ClockCircleFilled, LoadingOutlined, PlusCircleFilled, PlusOutlined, SyncOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Checkbox, Col, DatePicker, Form, Input, Modal, Pagination, Popconfirm, Radio, Rate, Row, Table, Tag, Typography, Upload } from 'antd'
-import { userAPI } from '../../../apis/user.api'
-import { GROUP_CODE, PAGE_SIZE, USER_TYPES_MAPPING } from '../../../constant'
-import { UserItem } from '../../../interface/user.interface'
-import { useState } from 'react'
-import { movieApi } from '../../../apis/movie.api'
-import { DataListMovie, Movie } from '../../../interface/movie.interface'
-import { format } from 'date-fns'
-import { Controller, useForm } from 'react-hook-form'
-import { useListMovie } from '../../../hooks/useListMovie'
-import { useOpenModal } from '../../../hooks/useOpenModal'
-import AddOrEditMovie, { FormValues } from './AddOrEditMovie'
+import { ClockCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Breadcrumb, Button, Pagination, Popconfirm, Rate, Table, Tag, Typography } from 'antd';
+import { useState } from 'react';
+import dayjs from 'dayjs';
 
-const Moviemanagement = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  const queryClient = useQueryClient()
-  const { isOpen, openModal, closeModal } = useOpenModal()
-  const { data, isFetching, error } = useListMovie(currentPage)
-  // add
-  const { mutate: handleAddMovieApi, isPending } = useMutation({
-    mutationFn: movieApi.addMovie,
+import { movieApi } from '../../../apis/movie.api';
+import { useListMovies } from '../../../hooks/useListMovie';
+import { useOpenModal } from '../../../hooks/useOpenModal';
+import { Movie } from '../../../interface/movie.interface';
+import AddOrEditMovieModal, { FormValues } from './AddOrEditMovie';
+
+const MovieManagement = () => {
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataEdit, setDataEdit] = useState<Movie | undefined>(undefined);
+  const { isOpen, openModal, closeModal } = useOpenModal();
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, error } = useListMovies(currentPage);
+
+  // add movie
+  const { mutate: handleAddMovieApi, isPending: isCreating } = useMutation({
+    mutationFn: (payload: FormData) => movieApi.addMovie(payload),
     onSuccess: (data) => {
-      console.log(data)
+      console.log('data', data);
     },
     onError: (error) => {
-      console.log('error', error)
+      console.log('error', error);
     },
-  })
-  // delete
+  });
+
+  // delete movie
   const { mutate: handleDeleteMovieApi, isPending: isDeleting } = useMutation({
     mutationFn: (idMovie: string) => movieApi.deleteMovie(idMovie),
     onSuccess: () => {
       queryClient.refetchQueries({
         queryKey: ['list-movies', { currentPage }],
         type: 'active',
-      })
+      });
     },
     onError: (error) => {
-      console.log('error', error)
+      console.log('error', error);
     },
-  })
+  });
+
+  // edit
+  const { mutate: handleEditMovieApi, isPending: isEditing } = useMutation({
+    mutationFn: (payload: FormData) => movieApi.editMovie(payload),
+    onSuccess: (data) => {
+      console.log('data', data);
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
 
   const columns = [
     {
@@ -55,13 +66,12 @@ const Moviemanagement = () => {
       title: 'Image',
       key: 'image',
       render: (record: Movie) => {
-        return <img src={record.hinhAnh} alt={record.biDanh} className="w-[150px] h-[190px] rounded-sm object-cover" />
+        return <img src={record.hinhAnh} alt={record.biDanh} className="w-[100px] h-[120px] rounded-sm object-cover" />;
       },
     },
     {
       title: 'Description',
-      key: 'descriptiton',
-
+      key: 'description',
       render: (record: Movie) => {
         return (
           <Typography.Paragraph
@@ -72,15 +82,15 @@ const Moviemanagement = () => {
           >
             {record.moTa}
           </Typography.Paragraph>
-        )
+        );
       },
     },
     {
       title: 'Show time',
       key: 'show-time',
-
-      render: (record: Movie) => {
-        return <Typography.Paragraph>{format(record.ngayKhoiChieu, 'dd/MM/yyyy')}</Typography.Paragraph>
+      dataIndex: 'ngayKhoiChieu',
+      render: (date: string) => {
+        return <Typography>{dayjs(new Date(date)).format('dd/MM/yyyy hh:mm a')}</Typography>;
       },
     },
     {
@@ -88,7 +98,7 @@ const Moviemanagement = () => {
       key: 'rate',
       dataIndex: 'danhGia',
       render: (rate: number) => {
-        return <Rate disabled defaultValue={(rate || 0) / 2} count={5}></Rate>
+        return <Rate disabled allowHalf value={(rate || 0) / 2} count={5} />;
       },
     },
     {
@@ -96,7 +106,7 @@ const Moviemanagement = () => {
       key: 'hot',
       dataIndex: 'hot',
       render: (isHot: boolean) => {
-        return isHot ? <Tag color="red">Hot💥</Tag> : <Tag color="green">Normal❤</Tag>
+        return isHot ? <Tag color="red">Hot 🔥 </Tag> : <Tag color="green">Normal</Tag>;
       },
     },
     {
@@ -105,35 +115,38 @@ const Moviemanagement = () => {
       dataIndex: 'dangChieu',
       render: (isShowing: boolean) => {
         return isShowing ? (
-          <Tag color="green" icon={<SyncOutlined spin />}>
+          <Tag icon={<SyncOutlined spin />} color="processing">
             Showing
           </Tag>
         ) : (
-          <Tag color="green">N/A</Tag>
-        )
+          <Tag>N/A</Tag>
+        );
       },
     },
     {
-      title: 'Coming Soon',
+      title: 'Coming soon',
       key: 'sapChieu',
       dataIndex: 'sapChieu',
       render: (isComingSoon: boolean) => {
         return isComingSoon ? (
-          <Tag color="green" icon={<ClockCircleFilled />}>
-            Coming Soon
+          <Tag color="success" icon={<ClockCircleOutlined />}>
+            Coming soon
           </Tag>
         ) : (
-          <Tag color="green">N/A</Tag>
-        )
+          <Tag>N/A</Tag>
+        );
       },
     },
     {
       title: 'Action',
       key: 'action',
-      render: (record: any) => {
+      render: (record: Movie) => {
         return (
           <div className="flex">
-            <Button type="primary" className="mr-2" onClick={() => alert(record.maPhim)}>
+            <Button type="primary" className="mr-2" onClick={()=>{
+              setDataEdit(record);
+              openModal();
+            }}>
               Edit
             </Button>
             <Popconfirm
@@ -141,6 +154,7 @@ const Moviemanagement = () => {
               description="Are you sure to delete this movie?"
               onConfirm={() => handleDeleteMovieApi(record.maPhim.toString())}
               onCancel={() => {}}
+              placement="bottom"
               okText="Yes"
               cancelText="No"
             >
@@ -149,60 +163,79 @@ const Moviemanagement = () => {
               </Button>
             </Popconfirm>
           </div>
-        )
+        );
       },
     },
-  ]
-  const dataSource = data?.items || []
+  ];
 
-  const onSubmit = (formValues: FormValues) => {
-    let formData = new FormData()
-    formData.append('tenPhim', formValues.tenPhim)
-    formData.append('trailer', formValues.trailer)
-    formData.append('moTa', formValues.moTa)
-    formData.append('danhGia', formValues.danhGia)
-    formData.append('hot', formValues.hot.toString())
-    formData.append('hinhAnh', formValues.hinhAnh)
-    formData.append('maNhom', GROUP_CODE)
-    formData.append('sapChieu', formValues.trangThai ? 'false' : 'true')
-    formData.append('dangChieu', formValues.trangThai ? 'true' : 'false')
-    handleAddMovieApi(formData)
+  const dataSource = data?.items || [];
+  const total = data?.totalCount || 0;
+
+  const handleSubmit = (formValues: FormValues) => {
+    console.log('formValues', formValues);
+    const formData = new FormData();
+    formData.append('tenPhim', formValues.tenPhim);
+    formData.append('trailer', formValues.trailer);
+    formData.append('danhGia', formValues.danhGia);
+    formData.append('moTa', formValues.moTa);
+    formData.append('hinhAnh', formValues.hinhAnh);
+    formData.append('hot', formValues.hot.toString());
+    formData.append('dangChieu', formValues.trangThai ? 'true' : 'false');
+    formData.append('sapChieu', formValues.trangThai ? 'false' : 'true');
+    formData.append('ngayKhoiChieu', dayjs(new Date(formValues.ngayKhoiChieu)).format('DD/MM/YYYY'));
+    formData.append('maNhom', 'GP01');
+    dataEdit ? handleEditMovieApi(formData) : handleAddMovieApi(formData);
+    
+  };
+
+  if (!isLoading && error) {
+    return <div>Something went wrong</div>;
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
+    <>
+      <div className="flex items-center justify-between mb-3">
         <Breadcrumb
           separator=">"
           items={[
             {
-              title: 'Dashboard',
+              title: "Dashboard",
             },
             {
-              title: 'Movie Management',
-              href: '',
+              title: "Movie Management",
+              href: "",
             },
           ]}
         />
-        <Button size="large" type="primary" onClick={openModal}>
+
+        <Button size="large" type="primary" onClick={()=>{
+          openModal();
+          setDataEdit(undefined);
+        }}>
           Add Movie
         </Button>
       </div>
-      <h3 className="font-medium text-3xl mb-3">List Movies</h3>
-      <Table rowKey={({ maPhim }) => maPhim} columns={columns} dataSource={dataSource} pagination={false} loading={isFetching} />
+      <h3 className="font-medium text-2xl mb-3">List movies</h3>
+      <Table rowKey="maPhim" columns={columns} dataSource={dataSource} pagination={false} loading={isLoading} />
       <div className="flex justify-end mt-10">
         <Pagination
-          showSizeChanger={false}
+          total={total}
           defaultCurrent={1}
-          total={100}
           onChange={(page: number, pSize: number) => {
-            setCurrentPage(page)
+            setCurrentPage(page);
           }}
+          showSizeChanger={false}
         />
       </div>
-      <AddOrEditMovie dataEdit={undefined} isOpen={isOpen} isPending={isPending} onCloseModal={closeModal} onSubmit={onSubmit} />
-    </div>
-  )
-}
 
-export default Moviemanagement
+      <AddOrEditMovieModal
+        dataEdit={dataEdit}
+        isOpen={isOpen}
+        isPending={isCreating}
+        onCloseModal={closeModal}
+        onSubmit={handleSubmit} isEditing={false}      />
+    </>
+  );
+};
+
+export default MovieManagement;
