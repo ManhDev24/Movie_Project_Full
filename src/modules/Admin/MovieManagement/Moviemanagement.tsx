@@ -23,7 +23,10 @@ const MovieManagement = () => {
   const { mutate: handleAddMovieApi, isPending: isCreating } = useMutation({
     mutationFn: (payload: FormData) => movieApi.addMovie(payload),
     onSuccess: (data) => {
-      console.log('data', data);
+      queryClient.refetchQueries({
+        queryKey: ['list-movies', { currentPage }],
+        type: 'active',
+      });
     },
     onError: (error) => {
       console.log('error', error);
