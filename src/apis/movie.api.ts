@@ -1,4 +1,5 @@
 import { GROUP_CODE, PAGE_SIZE } from '../constant'
+import { BREARER, TOKEN_CYBERSOFT } from '../constant/urlConfig';
 import { ApiWelcome } from '../interface'
 import { Movie } from '../interface/movie.interface';
 import fetcher from './fetcher'
@@ -59,9 +60,21 @@ export const movieApi = {
       throw Error(error.response.data.content);
     }
   },
-  editMovie: async (payload: Movie) => {
+  editMovie: async (payload: any) => {
     try {
-      const response = await fetcher.post('/QuanLyPhim/CapNhatPhimUpload', payload)
+      //const response = await fetcher.post('/QuanLyPhim/CapNhatPhimUpload', payload)
+      const response = await fetcher.post<ApiWelcome<any>>("/QuanLyPhim/CapNhatPhimUpload",payload,{
+        headers:{
+          "TokenCyberSoft": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2NiIsIkhldEhhblN0cmluZyI6IjI1LzEyLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTczNTA4NDgwMDAwMCIsIm5iZiI6MTcwNTUxMDgwMCwiZXhwIjoxNzM1MjMyNDAwfQ.FrZqgp-B9SVwd6fnz8aY6uCneamGpnAdxPt96fXIUKw',
+
+          "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2NiIsIkhldEhhblN0cmluZyI6IjI1LzEyLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTczNTA4NDgwMDAwMCIsIm5iZiI6MTcwNTUxMDgwMCwiZXhwIjoxNzM1MjMyNDAwfQ.FrZqgp-B9SVwd6fnz8aY6uCneamGpnAdxPt96fXIUKw',
+
+          
+          'Content-Type':'multipart/form-data',
+          
+
+      }
+      });
       return response.data.content
     } catch (error: any) {
       throw Error(error.response.data.content)

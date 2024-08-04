@@ -51,7 +51,10 @@ const MovieManagement = () => {
   const { mutate: handleEditMovieApi, isPending: isEditing } = useMutation({
     mutationFn: (payload: FormData) => movieApi.editMovie(payload),
     onSuccess: (data) => {
-      console.log('data', data);
+      queryClient.refetchQueries({
+        queryKey: ['list-movies', { currentPage }],
+        type: 'active',
+      });
     },
     onError: (error) => {
       console.log('error', error);
