@@ -71,8 +71,6 @@ export const movieApi = {
 
           
           'Content-Type':'multipart/form-data',
-          
-
       }
       });
       return response.data.content

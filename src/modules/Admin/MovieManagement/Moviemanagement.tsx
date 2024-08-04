@@ -151,6 +151,7 @@ const MovieManagement = () => {
           <div className="flex">
             <Button type="primary" className="mr-2" onClick={()=>{
               setDataEdit(record);
+            
               openModal();
             }}>
               Edit
@@ -180,6 +181,9 @@ const MovieManagement = () => {
   const handleSubmit = (formValues: FormValues) => {
     console.log('formValues', formValues);
     const formData = new FormData();
+    if(dataEdit){
+      formData.append('maPhim',formValues.maPhim.toString());
+    }
     formData.append('tenPhim', formValues.tenPhim);
     formData.append('trailer', formValues.trailer);
     formData.append('danhGia', formValues.danhGia);

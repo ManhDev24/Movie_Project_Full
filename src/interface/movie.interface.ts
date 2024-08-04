@@ -14,7 +14,7 @@ export interface Movie {
   tenPhim: string
   biDanh: string
   trailer: string
-  hinhAnh: string
+  hinhAnh: any
   moTa: string
   maNhom: string
   ngayKhoiChieu: Date
