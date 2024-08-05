@@ -27,7 +27,7 @@ interface AddOrEditMovieModalProps {
 }
 
 const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, isPending, onSubmit, dataEdit}) => {
-  const [image, setImage] =  useState<string | undefined>(undefined);
+  const [image, setImage] =  useState(dataEdit?.hinhAnh);
   const [file, setFile] =  useState();
   const { handleSubmit, control, setValue, watch,reset  } = useForm<FormValues>({
     defaultValues: {
@@ -55,12 +55,12 @@ const AddOrEditMovie: FC<AddOrEditMovieModalProps> = ({ isOpen, onCloseModal, is
       setValue('hinhAnh',dataEdit.hinhAnh);
     }
   }, [dataEdit,setValue])
-  useEffect(() => {
-    if (!isOpen) {
-      reset()
-    }
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     reset()
+  //   }
 
-  }, [isOpen]);
+  // }, [isOpen]);
   const watchhinhAnh = watch('hinhAnh')
   
   //   const onSubmit = (values: FormValues) => {

@@ -11,7 +11,7 @@ import { Movie } from '../../../interface/movie.interface';
 import AddOrEditMovieModal, { FormValues } from './AddOrEditMovie';
 
 const MovieManagement = () => {
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [dataEdit, setDataEdit] = useState<Movie | undefined>(undefined);
   const { isOpen, openModal, closeModal } = useOpenModal();
@@ -149,10 +149,11 @@ const MovieManagement = () => {
       render: (record: Movie) => {
         return (
           <div className="flex">
-            <Button type="primary" className="mr-2" onClick={()=>{
-              setDataEdit(record);
-            
-              openModal();
+            <Button type="primary" className="mr-2" onClick={() => {
+               openModal();
+              setDataEdit(record);  
+              
+             
             }}>
               Edit
             </Button>
@@ -160,7 +161,7 @@ const MovieManagement = () => {
               title="Delete the movie"
               description="Are you sure to delete this movie?"
               onConfirm={() => handleDeleteMovieApi(record.maPhim.toString())}
-              onCancel={() => {}}
+              onCancel={() => { }}
               placement="bottom"
               okText="Yes"
               cancelText="No"
@@ -181,9 +182,8 @@ const MovieManagement = () => {
   const handleSubmit = (formValues: FormValues) => {
     console.log('formValues', formValues);
     const formData = new FormData();
-    if(dataEdit){
-      formData.append('maPhim',formValues.maPhim.toString());
-    }
+    
+    formData.append('maPhim', formValues.maPhim.toString());
     formData.append('tenPhim', formValues.tenPhim);
     formData.append('trailer', formValues.trailer);
     formData.append('danhGia', formValues.danhGia);
@@ -194,8 +194,14 @@ const MovieManagement = () => {
     formData.append('sapChieu', formValues.trangThai ? 'false' : 'true');
     formData.append('ngayKhoiChieu', dayjs(new Date(formValues.ngayKhoiChieu)).format('DD/MM/YYYY'));
     formData.append('maNhom', 'GP01');
-    dataEdit ? handleEditMovieApi(formData) : handleAddMovieApi(formData);
+    if (dataEdit) {
+      
+      handleEditMovieApi({maPhim:formValues.maPhim,...formValues})
+    }else{
+      handleAddMovieApi(formData);
+    }
     
+
   };
 
   if (!isLoading && error) {
@@ -218,7 +224,7 @@ const MovieManagement = () => {
           ]}
         />
 
-        <Button size="large" type="primary" onClick={()=>{
+        <Button size="large" type="primary" onClick={() => {
           openModal();
           setDataEdit(undefined);
         }}>
@@ -241,9 +247,10 @@ const MovieManagement = () => {
       <AddOrEditMovieModal
         dataEdit={dataEdit}
         isOpen={isOpen}
+        
         isPending={isCreating}
         onCloseModal={closeModal}
-        onSubmit={handleSubmit} isEditing={false}      />
+        onSubmit={handleSubmit} isEditing={isEditing} />
     </>
   );
 };
