@@ -40,16 +40,14 @@ const useRoutesElement = () => {
     {
       path: '/',
       element: <HomeLayout />,
-      children: [
-        {
-          path: PATH.PROFILE,
-          element: <ProfileUser />,
-        },
-        {
-          path: PATH.MOVIE_DETAILS,
-          element: <MovieDetail />,
-        },
-      ],
+    },
+    {
+      path: PATH.PROFILE,
+      element: <ProfileUser />,
+    },
+    {
+      path: PATH.MOVIE_DETAILS,
+      element: <MovieDetail />,
     },
     {
       path: 'auth',
