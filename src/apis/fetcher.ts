@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, TOKEN_CYBERSOFT } from "../constant/urlConfig";
+import { BASE_URL, BREARER, TOKEN_CYBERSOFT } from "../constant/urlConfig";
 import { getLocalStorage } from "../utils";
 import { CurrentUser } from "../interface/user.interface";
 
@@ -7,7 +7,8 @@ const fetcher = axios.create({
     baseURL:BASE_URL,
     headers:{
         "Content-Type":"application/json",
-        TokenCybersoft:TOKEN_CYBERSOFT
+        TokenCybersoft:TOKEN_CYBERSOFT,
+        
     }
 })
 

@@ -10,8 +10,8 @@ import { Moviemanagement } from '../modules/Admin/MovieManagement'
 import { CinemaManagement } from '../modules/Admin/CinemaManagement'
 import { AccountSetting } from '../modules/Admin/AccountSetting'
 import { HomeLayout } from '../layout/Home'
-import Profile from '../layout/Home/Profile/Profile'
 import { ProfileUser } from '../layout/Home/Profile'
+import { MovieDetail } from '../modules/MovieDetail'
 
 const RejectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -44,6 +44,10 @@ const useRoutesElement = () => {
         {
           path: PATH.PROFILE,
           element: <ProfileUser />,
+        },
+        {
+          path: PATH.MOVIE_DETAILS,
+          element: <MovieDetail />,
         },
       ],
     },
