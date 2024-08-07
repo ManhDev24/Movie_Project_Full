@@ -62,4 +62,12 @@ export const userAPI = {
       throw Error(error.response.data.content)
     }
   },
+  getUserInfo: async <T>(taiKhoan: string) => {
+    try {
+      const response = await fetcher.post(`/QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=quadas`)
+      return response.data.content
+    } catch (error: any) {
+      throw Error(error.response.data.content)
+    }
+  },
 }

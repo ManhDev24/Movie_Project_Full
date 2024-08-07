@@ -1,4 +1,4 @@
-import { Modal, Row, Form, Col, Input, Typography, Select, Button } from 'antd'
+import { Modal, Row, Col, Input, Typography, Select, Button } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -21,7 +21,7 @@ interface AddOrEditUserModalProps {
   isEditing: boolean
   onCloseModal: () => void
   onSubmit: (formValues: FormValues) => void
-  dataEdit?: any
+  dataEdit?: FormValues
 }
 
 const AddOrEditUser: FC<AddOrEditUserModalProps> = ({ isOpen, onCloseModal, dataEdit, isAdding, onSubmit }) => {
@@ -56,6 +56,7 @@ const AddOrEditUser: FC<AddOrEditUserModalProps> = ({ isOpen, onCloseModal, data
       hoTen: '',
     },
     resolver: yupResolver(schema),
+    mode: 'onBlur',
     criteriaMode: 'all',
   })
 
@@ -68,6 +69,8 @@ const AddOrEditUser: FC<AddOrEditUserModalProps> = ({ isOpen, onCloseModal, data
       setValue('maNhom', dataEdit.maNhom)
       setValue('maLoaiNguoiDung', dataEdit.maLoaiNguoiDung)
       setValue('hoTen', dataEdit.hoTen)
+    } else {
+      reset()
     }
   }, [dataEdit, setValue])
 
@@ -77,111 +80,98 @@ const AddOrEditUser: FC<AddOrEditUserModalProps> = ({ isOpen, onCloseModal, data
   }
 
   return (
-    <div>
-      <Modal footer={false} open={isOpen} onCancel={handleCloseModal} title={<Typography className="text-2xl font-medium">{dataEdit ? 'Edit User' : 'Add User'}</Typography>}>
-        <Form onFinish={handleSubmit(onSubmit)}>
-          <Row gutter={[48, 24]}>
-            {/* Fields for taiKhoan, matKhau, email, soDt, maNhom, hoTen */}
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Tài khoản
-              </label>
-              <Controller
-                name="taiKhoan"
-                control={control}
-                render={({ field }) => <Input {...field} status={errors.taiKhoan ? 'error' : ''} size="large" className="mt-1" placeholder="Tài Khoản" />}
-              />
-              {errors?.taiKhoan && <p className="text-xs text-red-600">{errors.taiKhoan.message}</p>}
-            </Col>
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Mật khẩu
-              </label>
-              <Controller
-                name="matKhau"
-                control={control}
-                render={({ field }) => (
-                  <Input.Password
-                    {...field}
-                    status={errors.matKhau ? 'error' : ''}
-                    size="large"
-                    placeholder="Mật khẩu"
-                    iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                  />
-                )}
-              />
-              {errors?.matKhau && <p className="text-xs text-red-600">{errors.matKhau.message}</p>}
-            </Col>
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Email
-              </label>
-              <Controller name="email" control={control} render={({ field }) => <Input {...field} status={errors.email ? 'error' : ''} size="large" className="mt-1" placeholder="Email" />} />
-              {errors?.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
-            </Col>
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Số điện thoại
-              </label>
-              <Controller name="soDt" control={control} render={({ field }) => <Input {...field} status={errors.soDt ? 'error' : ''} size="large" className="mt-1" placeholder="Số điện thoại" />} />
-              {errors?.soDt && <p className="text-xs text-red-600">{errors.soDt.message}</p>}
-            </Col>
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Mã nhóm
-              </label>
-              <Controller name="maNhom" control={control} render={({ field }) => <Input {...field} status={errors.maNhom ? 'error' : ''} size="large" className="mt-1" placeholder="Mã nhóm" />} />
-              {errors?.maNhom && <p className="text-xs text-red-600">{errors.maNhom.message}</p>}
-            </Col>
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Họ và Tên
-              </label>
-              <Controller name="hoTen" control={control} render={({ field }) => <Input {...field} status={errors.hoTen ? 'error' : ''} size="large" className="mt-1" placeholder="Họ và tên" />} />
-              {errors?.hoTen && <p className="text-xs text-red-600">{errors.hoTen.message}</p>}
-            </Col>
-            {/* Select field for maLoaiNguoiDung */}
-            <Col span={24}>
-              <label className="text-sm pt-2">
-                <span className="text-red-600">*</span>
-                Mã loại người dùng
-              </label>
-              <br></br>
-              <Controller
-                name="maLoaiNguoiDung"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    status={errors.maLoaiNguoiDung ? 'error' : ''}
-                    style={{ width: '100%' }} // Expand width to fit the container
-                    options={[
-                      { value: 'KhachHang', label: 'Khách Hàng' },
-                      { value: 'QuanTri', label: 'Quản trị' },
-                    ]}
-                  />
-                )}
-              />
-              {errors?.maLoaiNguoiDung && <p className="text-xs text-red-600">{errors.maLoaiNguoiDung.message}</p>}
-            </Col>
-            <Col span={24} className="flex justify-end" onClick={onCloseModal}>
-              <Button size="large" type="default" className="mt-3">
-                Cancel
-              </Button>
-              <Button loading={isAdding} disabled={isAdding} htmlType="submit" size="large" type="primary" className="mx-3 mt-3">
-                {dataEdit ? 'Edit movie' : 'Add movie'}
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
-    </div>
+    <Modal footer={null} open={isOpen} onCancel={handleCloseModal} title={<Typography className="text-2xl font-medium">{dataEdit ? 'Edit User' : 'Add User'}</Typography>}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Row gutter={[48, 24]}>
+          {/* Fields for taiKhoan, matKhau, email, soDt, maNhom, hoTen */}
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Tài khoản
+            </label>
+            <Controller name="taiKhoan" control={control} render={({ field }) => <Input {...field} status={errors.taiKhoan ? 'error' : ''} size="large" className="mt-1" placeholder="Tài Khoản" />} />
+            {errors?.taiKhoan && <p className="text-xs text-red-600">{errors.taiKhoan.message}</p>}
+          </Col>
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Mật khẩu
+            </label>
+            <Controller
+              name="matKhau"
+              control={control}
+              render={({ field }) => (
+                <Input.Password {...field} status={errors.matKhau ? 'error' : ''} size="large" placeholder="Mật khẩu" iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+              )}
+            />
+            {errors?.matKhau && <p className="text-xs text-red-600">{errors.matKhau.message}</p>}
+          </Col>
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Email
+            </label>
+            <Controller name="email" control={control} render={({ field }) => <Input {...field} status={errors.email ? 'error' : ''} size="large" className="mt-1" placeholder="Email" />} />
+            {errors?.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
+          </Col>
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Số điện thoại
+            </label>
+            <Controller name="soDt" control={control} render={({ field }) => <Input {...field} status={errors.soDt ? 'error' : ''} size="large" className="mt-1" placeholder="Số điện thoại" />} />
+            {errors?.soDt && <p className="text-xs text-red-600">{errors.soDt.message}</p>}
+          </Col>
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Mã nhóm
+            </label>
+            <Controller name="maNhom" control={control} render={({ field }) => <Input {...field} status={errors.maNhom ? 'error' : ''} size="large" className="mt-1" placeholder="Mã nhóm" />} />
+            {errors?.maNhom && <p className="text-xs text-red-600">{errors.maNhom.message}</p>}
+          </Col>
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Họ và Tên
+            </label>
+            <Controller name="hoTen" control={control} render={({ field }) => <Input {...field} status={errors.hoTen ? 'error' : ''} size="large" className="mt-1" placeholder="Họ và tên" />} />
+            {errors?.hoTen && <p className="text-xs text-red-600">{errors.hoTen.message}</p>}
+          </Col>
+          {/* Select field for maLoaiNguoiDung */}
+          <Col span={24}>
+            <label className="text-sm pt-2">
+              <span className="text-red-600">*</span>
+              Mã loại người dùng
+            </label>
+            <Controller
+              name="maLoaiNguoiDung"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  status={errors.maLoaiNguoiDung ? 'error' : ''}
+                  style={{ width: '100%' }} // Expand width to fit the container
+                  options={[
+                    { value: 'KhachHang', label: 'Khách Hàng' },
+                    { value: 'QuanTri', label: 'Quản trị' },
+                  ]}
+                />
+              )}
+            />
+            {errors?.maLoaiNguoiDung && <p className="text-xs text-red-600">{errors.maLoaiNguoiDung.message}</p>}
+          </Col>
+          <Col span={24} className="flex justify-end" onClick={onCloseModal}>
+            <Button size="large" type="default" className="mt-3">
+              Cancel
+            </Button>
+            <Button loading={isAdding} disabled={isAdding} htmlType="submit" size="large" type="primary" className="mx-3 mt-3">
+              {dataEdit ? 'Edit User' : 'Add User'}
+            </Button>
+          </Col>
+        </Row>
+      </form>
+    </Modal>
   )
 }
 
