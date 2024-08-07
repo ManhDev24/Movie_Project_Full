@@ -1,0 +1,31 @@
+
+
+.seat {
+    @extend .base-seat !optional;
+
+    &:hover {
+        transform: translateY(-5px);
+        background-color:rgb(68, 192, 32);
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &.Vip {
+        background-color: rgb(247, 181, 0);
+
+        &:hover {
+            background-color: rgb(68, 192, 32);
+        }
+    }
+
+    &.selecting {
+        background-color: rgb(68, 192, 32);
+    }
+
+    &.daDat {
+        background-color: rgb(153, 197, 255);
+        cursor: no-drop;
+    }
+}

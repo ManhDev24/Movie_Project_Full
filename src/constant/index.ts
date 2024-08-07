@@ -4,3 +4,8 @@ export const USER_TYPES_MAPPING : Record<string ,string> = {
     KhachHang: 'Khách hàng',
     QuanTri: 'Quản trị',
   }
+  export const LOAIGHE = {
+    Vip: 'Vip',
+    Thuong: 'Thuong',
+  };
+  

@@ -4,7 +4,7 @@ export const PATH = {
     LOGIN:"/auth/login",
     REGISTER:"/auth/register",
     MOVIE_DETAILS:"/movie-details/:movieId",
-    BOOKING:"/booking",
+    BOOKING:"/booking/:maLichChieu",
     PROFILE:"/profile",
     ADMIN:"/admin",
     ADMIN_USER:"/admin/user",

@@ -12,6 +12,7 @@ import { AccountSetting } from '../modules/Admin/AccountSetting'
 import { HomeLayout } from '../layout/Home'
 import { ProfileUser } from '../layout/Home/Profile'
 import { MovieDetail } from '../modules/MovieDetail'
+import { Booking } from '../modules/Booking'
 
 const RejectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -48,6 +49,11 @@ const useRoutesElement = () => {
     {
       path: PATH.MOVIE_DETAILS,
       element: <MovieDetail />,
+      
+    },
+    {
+      path: PATH.BOOKING,
+      element:<Booking/>
     },
     {
       path: 'auth',

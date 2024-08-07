@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { movieApi } from "../../apis/movie.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -8,6 +8,7 @@ import { Button } from "antd";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/system";
+import { Navigate } from "react-router-dom";
 interface PhimDetailParams {
   maPhim: string;
 }
@@ -50,6 +51,7 @@ const MovieDetail: React.FC = () => {
   const [detailId, setDetailId] = useState({});
   const [value, setValue] = React.useState(0);
   const [detailMovieTheater, setMovieTheater] = useState({});
+  const navigate = useNavigate()
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -347,7 +349,7 @@ const MovieDetail: React.FC = () => {
                               </div>
                               <div
                                 className="MuiCollapse-container MuiCollapse-entered"
-                                style={{ minHeight: 140 }}
+                                style={{ minHeight: 180 }}
                               >
                                 <div className="MuiCollapse-wrapper">
                                   <div className="MuiCollapse-wrapperInner">
@@ -372,11 +374,13 @@ const MovieDetail: React.FC = () => {
                                                   <p>{schedule.diaChi}</p>
                                                   <p>
                                                     {schedule.lichChieuPhim.map((value, index) => (
-                                                      <div>
+                                                      <Button onClick={() => navigate(`/booking/${value.maLichChieu}`)}>
                                                         <p>Ngày giờ khởi chiếu:{dayjs(value.ngayChieuGioChieu).format('MM/DD/YYYY h:mm A')}</p>
+                                                        <br />
                                                         <p>Thời lượng: {value.thoiLuong}</p>
+                                                        <br />
                                                         <p>Tên Rạp: {value.tenRap}</p>
-                                                      </div>
+                                                      </Button>
                                                     ))}
                                                   </p>
                                                 </div>
