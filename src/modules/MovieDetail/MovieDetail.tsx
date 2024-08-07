@@ -6,7 +6,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Button } from "antd";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Box, Tab ,Tabs  } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
+import { styled } from "@mui/system";
 interface PhimDetailParams {
   maPhim: string;
 }
@@ -15,6 +16,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -26,7 +28,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
     </div>
   );
 }
@@ -37,12 +39,17 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
 const MovieDetail: React.FC = () => {
   const params = useParams();
-
+  const StyledTab = styled(Tab)(({ theme, selected }) => ({
+    ...(selected && {
+      color: "red",
+    }),
+  }));
   const [detailId, setDetailId] = useState({});
   const [value, setValue] = React.useState(0);
-
+  const [detailMovieTheater, setMovieTheater] = useState({});
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -52,9 +59,18 @@ const MovieDetail: React.FC = () => {
     setDetailId(result);
   };
 
+  const fetchMovieTheater = async () => {
+    const resultTheater = await movieApi.getTheaterByMovieShow(params.movieId);
+    setMovieTheater(resultTheater);
+  };
+
   useEffect(() => {
     fetchMovieDetail();
-  },[params.movieId]);
+  }, [params.movieId]);
+  useEffect(() => {
+    fetchMovieTheater();
+  }, [params.movieId]);
+
   const backgroundStyle: React.CSSProperties = {
     backgroundImage: `url(${detailId.hinhAnh})`,
     backgroundSize: "cover",
@@ -62,20 +78,30 @@ const MovieDetail: React.FC = () => {
     height: "auto", // Đảm bảo phần tử có kích thước để hiển thị hình ảnh nền
     width: "100%", // Đảm bảo phần tử có kích thước rộng đủ
   };
-  const numStars = Math.floor(detailId.danhGia/2);
+  const numStars = Math.floor(detailId.danhGia / 2);
   const starsElement = document.getElementById("stars");
-  let span ='';
+  let span = "";
   for (var i = 0; i < numStars; i++) {
-    span += '<span>★</span>';
+    span += "<span>★</span>";
   }
   if (starsElement) {
     starsElement.innerHTML = span;
   } else {
-      console.error("Phần tử với id 'stars' không tồn tại.");
+    console.error("Phần tử với id 'stars' không tồn tại.");
   }
+  const heThongRapChieu = detailMovieTheater.heThongRapChieu || [];
+  const [selectedRap, setSelectedRap] = useState(null);
+  const handleButtonClick = (maHeThongRap: any) => {
+    setSelectedRap(maHeThongRap);
+  };
+  const selectedRapData = heThongRapChieu.find(
+    (rap: any) => rap.maHeThongRap === selectedRap
+  );
   
+  
+
   return (
-    <div className="h-[100vh]" style={{backgroundColor:'rgb(10, 32, 41)'}}>
+    <div style={{ backgroundColor: "rgb(10, 32, 41)" }}>
       <div className="relative w-[100%] h-[41vw]">
         <div className="movieDetail__detailbackground-setup">
           <div className="jss778 " style={backgroundStyle}></div>
@@ -87,11 +113,15 @@ const MovieDetail: React.FC = () => {
               <div className="movieDetail__detail-content">
                 <p>{dayjs(detailId.ngayKhoiChieu).format("DD/MM/YYYY")}</p>
                 <p>
-                  <span className="movieDetail__detail-span font-semibold">C18</span>
+                  <span className="movieDetail__detail-span font-semibold">
+                    C18
+                  </span>
                   {detailId.tenPhim}
                 </p>
                 <p className="movieDetail__detail-descript">{detailId.moTa}</p>
-                <Button className="movieDetail__detail-btnInfo uppercase font-semibold">Mua vé</Button>
+                <Button className="movieDetail__detail-btnInfo uppercase font-semibold">
+                  Mua vé
+                </Button>
               </div>
               <div className="movieDetail__detail-rate">
                 <div className="movieDetail__detail-ratetitle">
@@ -154,12 +184,11 @@ const MovieDetail: React.FC = () => {
                   </div>
                 </div>
                 <span
-                
                   className="MuiRating-root MuiRating-readOnly"
                   role="img"
                   aria-label="5 Stars"
                 >
-                  <span   className="MuiRating-decimal">
+                  <span className="MuiRating-decimal">
                     <span
                       style={{
                         width: "0%",
@@ -180,7 +209,10 @@ const MovieDetail: React.FC = () => {
                       </span>
                     </span>
                     <span>
-                      <span id="stars" className="MuiRating-icon MuiRating-iconFilled">
+                      <span
+                        id="stars"
+                        className="MuiRating-icon MuiRating-iconFilled"
+                      >
                         <svg
                           className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                           focusable="false"
@@ -202,25 +234,178 @@ const MovieDetail: React.FC = () => {
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
-              
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+              <StyledTab
+                className="jss79 "
+                value={0}
+                label="LỊCH CHIẾU"
+                {...heThongRapChieu.map((rap: any, index: any) => ({
+                  ...a11yProps(rap.maHeThongRap),
+                }))}
+              />
+              {/* <StyledTab
+                className="jss79 "
+                value={1}
+                label="ĐÁNH GIÁ"
+                {...a11yProps(1)}
+              /> */}
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            Item One
+            <div className="MuiBox-root jss120">
+              <div className="jss121">
+                <div className="MuiTabs-root jss122 MuiTabs-vertical">
+                  <div
+                    className="MuiTabs-scrollable"
+                    style={{
+                      width: 99,
+                      height: 99,
+                      position: "absolute",
+                      top: "-9999px",
+                      overflow: "scroll",
+                    }}
+                  />
+                  <div
+                    className="MuiTabs-scroller MuiTabs-scrollable"
+                    style={{ marginBottom: 0 }}
+                  >
+                    <div
+                      className="MuiTabs-flexContainer MuiTabs-flexContainerVertical"
+                      role="tablist"
+                    >
+                      {heThongRapChieu.map((rap: any) => (
+                        <button
+                          key={rap.maHeThongRap}
+                          className={`MuiButtonBase-root MuiTab-root jss125 MuiTab-textColorInherit ${
+                            selectedRap === rap.maHeThongRap
+                              ? "Mui-selected"
+                              : ""
+                          }`}
+                          type="button"
+                          role="tab"
+                          aria-selected={selectedRap === rap.maHeThongRap}
+                          onClick={() => handleButtonClick(rap.maHeThongRap)}
+                        >
+                          <span className="MuiTab-wrapper jss124">
+                            <img
+                              className="jss126"
+                              src={rap.logo}
+                              alt="logoTheater"
+                            />
+                            <span className="span_logo">
+                              {rap.tenHeThongRap}
+                            </span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <span
+                      className=" jss118 MuiTabs-indicator jss123 jss119"
+                      style={{ top: 0, height: 90 }}
+                    />
+                  </div>
+                </div>
+                <div className="jss127">
+                  <div style={{ display: "block" }}>
+                    <div>
+                      {selectedRapData ? (
+                        <div style={{ display: "block" }}>
+                          <div className="jss132">
+                            <div className="MuiPaper-root MuiAccordion-root jss137 Mui-expanded jss138 MuiPaper-elevation1">
+                              <div
+                                className="MuiButtonBase-root MuiAccordionSummary-root jss139 Mui-expanded jss141"
+                                role="button"
+                                aria-disabled="false"
+                                aria-expanded="true"
+                              >
+                                <div className="MuiAccordionSummary-content jss140 Mui-expanded jss141">
+                                  <img
+                                    className="jss134"
+                                    src={selectedRapData.logo} // Sử dụng logo từ đối tượng được chọn
+                                    alt="theater"
+                                  />
+                                  <div className="jss135">
+                                    <p className="jss142 jss144">
+                                      <span>
+                                        {selectedRapData.tenHeThongRap}{" "}
+                                      </span>
+                                    </p>
+                                    <p
+                                      style={{
+                                        fontSize: 14,
+                                        color: "rgb(155, 155, 155)",
+                                      }}
+                                    >
+                                      {/* Thông tin chi tiết khác nếu có */}
+                                    </p>
+                                  </div>
+                                  <div style={{ clear: "both" }} />
+                                </div>
+                              </div>
+                              <div
+                                className="MuiCollapse-container MuiCollapse-entered"
+                                style={{ minHeight: 140 }}
+                              >
+                                <div className="MuiCollapse-wrapper">
+                                  <div className="MuiCollapse-wrapperInner">
+                                    <div role="region">
+                                      <div className="MuiAccordionDetails-root jss145">
+                                        {selectedRapData.cumRapChieu &&
+                                          selectedRapData.cumRapChieu.map(
+                                            (schedule, index) => (
+                                              <div
+                                                className="jss146 jss148 flex flex-wrap"
+                                                key={index}
+                                              >
+                                                <div>
+                                                  <img
+                                                    style={{ width: "60px" }}
+                                                    src={schedule.hinhAnh}
+                                                    alt=""
+                                                  />
+                                                </div>
+                                                <div className="jss147">
+                                                  <p>{schedule.tenCumRap}</p>
+                                                  <p>{schedule.diaChi}</p>
+                                                  <p>
+                                                    {schedule.lichChieuPhim.map((value, index) => (
+                                                      <div>
+                                                        <p>Ngày giờ khởi chiếu:{dayjs(value.ngayChieuGioChieu).format('MM/DD/YYYY h:mm A')}</p>
+                                                        <p>Thời lượng: {value.thoiLuong}</p>
+                                                        <p>Tên Rạp: {value.tenRap}</p>
+                                                      </div>
+                                                    ))}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            )
+                                          )}
+                                       
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          Vui lòng chọn một hệ thống rạp để xem thông tin.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
+          {/* <CustomTabPanel value={value} index={1}>
             Item Two
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-            Item Three
-          </CustomTabPanel>
+          </CustomTabPanel> */}
         </Box>
       </div>
     </div>

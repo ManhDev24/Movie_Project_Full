@@ -134,10 +134,10 @@ body {
             padding: 0px 15px;
             p{
                 font-size: 24px;
-                color:black;
+                color:white;
                 
                 .movieDetail__detail-span{
-                    color:black;
+                    color:white;
                     display: inline-block;
                     padding: 0 5px;
                     font-size: 16px;
@@ -153,7 +153,7 @@ body {
               font-size: 14px;
             }
             .movieDetail__detail-btnInfo{
-              color: black;
+              color: white;
               border: none;
               padding: 25px 30px;
               font-size: 16px;
@@ -183,7 +183,7 @@ body {
                     position: absolute;
                     font-size: 53px;
                     transform: translate(-50%, -50%);
-                    color:black
+                    color:white
                 }
                 
             }
@@ -287,7 +287,236 @@ svg {
 }
 .MuiTabs-flexContainer{
   display:flex;
-  justify-content:center
+  justify-content:center;
+  
+}
+.MuiTabs-flexContainer .jss79 {
+  color: #fff !important;
+  opacity: 1;
+  font-size: 18px;
+  transition: all .2s;
+  font-weight: 600 !important;
+}
+.jss79:hover {
+  font-size: 22px;
+
+}
+.MuiTab-textColorInherit.Mui-selected {
+  opacity: 1;
+}
+.jss80 {
+  color: #fb4226;
+  font-size: 18px;
+}
+.css-1aquho2-MuiTabs-indicator {
+  display: none !important;
+}
+.jss120 {
+  padding: 24px;
+}
+.jss121 {
+  color: #000;
+  display: flex;
+  flex-grow: 1;
+  min-height: 713px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.jss122 {
+  width: 28%;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+.MuiTabs-scrollable {
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+.MuiTabs-scroller {
+  flex: 1 1 auto;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+}
+.MuiTabs-flexContainer {
+  display: flex;
+}
+.jss123 {
+  background-color: transparent;
+}
+.jss119 {
+  right: 0;
+  width: 2px;
+  height: 100%;
+}
+.jss116 {
+  width: 100%;
+  bottom: 0;
+  height: 2px;
+  position: absolute;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.MuiTabs-flexContainerVertical {
+  flex-direction: column;
+}
+.jss125 {
+  opacity: 0.3;
+  padding: 20px;
+  position: relative;
+  font-size: 12px;
+  text-align: left;
+  transition: all .2s;
+}
+.MuiTab-wrapper {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.jss124 {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.jss126 {
+  width: 50px;
+  margin-right: 10px;
+}
+.jss128 {
+  height: 90px;
+  display: flex;
+  padding: 16px !important;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-left: 0 !important;
+  border-radius: 10px;
+  padding-right: 0 !important;
+  background-color: #fff;
+}
+.jss129 {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+.jss132 {
+  position: relative;
+  overflow-y: hidden;
+  transition: height .2s;
+}
+.MuiAccordion-root.Mui-expanded:last-child {
+  margin-bottom: 0;
+}
+.MuiAccordion-root.Mui-expanded:first-child {
+  margin-top: 0;
+}
+.jss137.jss138 {
+  margin: auto;
+}
+.jss137 {
+  box-shadow: none;
+}
+.MuiAccordion-root {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  position: relative;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.jss132:after {
+  left: 50%;
+  width: calc(100% - 40px);
+  bottom: 0;
+  content: '';
+  position: absolute;
+  transform: translateX(-50%);
+  border-bottom: 1px solid rgba(238, 238, 238, .88);
+}
+.jss127 {
+  width: 72%;
+}
+.jss139.jss141 {
+  min-height: 56px;
+}
+.jss140.jss141 {
+  margin: 12px 0;
+}
+.jss140 > img {
+  width: 50px;
+}
+.jss135 {
+  padding-left: 4px;
+}
+.jss144 {
+  color: rgb(231, 26, 15);
+  font-size: 14px;
+  font-weight: 500;
+}
+.jss143 {
+  color: #000;
+  font-weight: 500;
+}
+.MuiCollapse-entered {
+  height: auto;
+  overflow: visible;
+}
+.MuiCollapse-container {
+  height: 60px;
+  overflow: hidden;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.MuiCollapse-wrapper {
+  display: flex;
+}
+.MuiCollapse-wrapperInner {
+  width: 100%;
+}
+.jss145 {
+  gap: 10px;
+  padding: 16px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.jss146 {
+  color: #9b9b9b;
+  border: 1px solid #e4e4e4;
+  padding: 5px 5px;
+  font-size: 14px;
+  transition: all .2s;
+  font-weight: 400;
+  border-radius: 7px;
+  background-color: rgba(246, 246, 246, .5);
+}
+.jss147 {
+  color: #108f3e;
+  font-size: 14px;
+  font-weight: 500;
+}
+.jss140 {
+  gap: 12px;
+  align-items: center;
+}
+.MuiAccordionSummary-content {
+  margin: 12px 0;
+  display: flex;
+  flex-grow: 1;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.jss145 {
+  gap: 10px;
+  padding: 16px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.MuiAccordionDetails-root {
+  display: flex;
+  padding: 8px 16px 16px;
+}
+.span_logo{
+  font-size: 14px;
+  font-weight: 600;
+}
+.jss148{
+  gap: 12px;
+  align-items: center;
 }
 // Responsive Design
 @media (max-width: 768px) {
@@ -297,5 +526,10 @@ svg {
     .poster {
       max-width: 100%;
     }
+  }
+}
+@media (min-width: 678px) {
+  .MuiTab-root {
+      min-width: 160px;
   }
 }
