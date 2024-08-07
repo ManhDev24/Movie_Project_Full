@@ -8,6 +8,11 @@ import { useState } from 'react'
 import { DataListMovie } from '../../interface/movie.interface'
 import { LoadingPage } from '../../modules/Loading'
 import BookingTicket from './BookingTicket'
+import News from './Profile/News'
+import { App } from 'antd'
+import Footer from '../UserLayout/Footer'
+import ListOfCinema from './ListOfCinema'
+import AppMobie from './AppMobie'
 
 const HomeLayout: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -47,8 +52,17 @@ const HomeLayout: React.FC = () => {
       <Navbar />
       <BannerCarousel banners={banners || []} />
       <BookingTicket />
-      {movies && movies.items && <ListOfMovie movies={movies.items} totalMovies={movies.totalCount} currentPage={currentPage} setCurrentPage={setCurrentPage} count={movies.count} />}
-      
+      <div id="lich-chieu-section">
+        {movies && movies.items && <ListOfMovie movies={movies.items} totalMovies={movies.totalCount} currentPage={currentPage} setCurrentPage={setCurrentPage} count={movies.count} />}
+      </div>
+      <div className="w-full mx-auto mt-20 flex justify-center" id="cum-rap">
+        <ListOfCinema />
+      </div>
+      <div id="Tin-tuc">
+        <News />
+      </div>
+
+      <Footer />
     </div>
   )
 }

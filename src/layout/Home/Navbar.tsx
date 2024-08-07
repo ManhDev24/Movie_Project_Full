@@ -5,9 +5,11 @@ import { PATH } from '../../routes/path'
 import { CurrentUser } from '../../interface/user.interface'
 import { useSignOut } from '../../redux/hooks'
 import { Link } from 'react-router-dom'
+import { Link as ScrollLink } from 'react-scroll'
 
 const Navbar = () => {
   const user = useSelector((state: { user: { currentUser: CurrentUser } }) => state.user.currentUser)
+
   const { signOutUser } = useSignOut()
   const menu = (
     <Menu>
@@ -16,14 +18,14 @@ const Navbar = () => {
       </Menu.Item>
       {user?.maLoaiNguoiDung === 'QuanTri' && (
         <Menu.Item key="admin">
-          <Link to={PATH.ADMIN}>Admin Menu</Link>
+          <Link to={PATH.ADMIN}>Admin</Link>
         </Menu.Item>
       )}
       <Menu.Item key="profile">
         <Link to={PATH.PROFILE}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="history">
-        <Link to="#">History Purchase</Link>
+        <Link to="#">Purchase</Link>
       </Menu.Item>
       <Menu.Item key="signout">
         <a onClick={signOutUser}>Sign Out</a>
@@ -77,26 +79,36 @@ const Navbar = () => {
           <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
-                <Link to="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">
-                  Lịch chiếu
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                <ScrollLink
+                  to="lich-chieu-section"
+                  smooth={true}
+                  duration={500}
+                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 cursor-pointer"
                 >
-                  Cụm rạp
-                </Link>
+                  Lịch chiếu
+                </ScrollLink>
               </li>
               <li>
-                <Link
-                  to="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                <ScrollLink
+                  to="cum-rap"
+                  smooth={true}
+                  duration={500}
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                >
+                  Cụm Rạp
+                </ScrollLink>
+              </li>
+              <li>
+                <ScrollLink
+                  to="Tin-tuc"
+                  smooth={true}
+                  duration={500}
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
                 >
                   Tin tức
-                </Link>
+                </ScrollLink>
               </li>
+
               <li>
                 <Link
                   to="#"
