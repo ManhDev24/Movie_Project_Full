@@ -10,18 +10,17 @@ import { Moviemanagement } from '../modules/Admin/MovieManagement'
 import { CinemaManagement } from '../modules/Admin/CinemaManagement'
 import { AccountSetting } from '../modules/Admin/AccountSetting'
 import { HomeLayout } from '../layout/Home'
-
-// Outlet để cho phép đi tiếp vào children hay các trang con
-// Ví dụ ở đây là khi vào trang /auth nó sẽ vào phần element nếu ở element có Outlet nó sẽ cho đi tiếp vào các trang con bên dưới
-// Ví dụ khi vào /auth nếu chưa đăng nhập do kiểm tra ở phần element nó sẽ đưa vào trang đăng nhập nếu rồi sẽ đưa ra trang home thông qua  return <Navigate to={PATH.HOME} />;
+import Profile from '../layout/Home/Profile/Profile'
+import { ProfileUser } from '../layout/Home/Profile'
 
 const RejectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
   if (currentUser === null) {
-    return <Outlet></Outlet>
+    return <Outlet />
   }
   return currentUser.maLoaiNguoiDung === 'QuanTri' ? <Navigate to={PATH.ADMIN} /> : <Navigate to={PATH.HOME} />
 }
+
 const ProtectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
 
@@ -31,6 +30,7 @@ const ProtectedRoutes = () => {
 
   return currentUser.maLoaiNguoiDung === 'QuanTri' ? <Outlet /> : <Navigate to={PATH.HOME} />
 }
+
 const useRoutesElement = () => {
   const routes = useRoutes([
     {
@@ -40,16 +40,22 @@ const useRoutesElement = () => {
     {
       path: '/',
       element: <HomeLayout />,
+      children: [
+        {
+          path: PATH.PROFILE,
+          element: <ProfileUser />,
+        },
+      ],
     },
     {
       path: 'auth',
-      element: <RejectedRoutes></RejectedRoutes>,
+      element: <RejectedRoutes />,
       children: [
         {
           path: PATH.LOGIN,
           element: (
             <AuthenLayout>
-              <Login></Login>
+              <Login />
             </AuthenLayout>
           ),
         },
@@ -57,7 +63,7 @@ const useRoutesElement = () => {
           path: PATH.REGISTER,
           element: (
             <AuthenLayout>
-              <Register></Register>
+              <Register />
             </AuthenLayout>
           ),
         },
@@ -65,7 +71,7 @@ const useRoutesElement = () => {
     },
     {
       path: PATH.ADMIN,
-      element: <ProtectedRoutes></ProtectedRoutes>,
+      element: <ProtectedRoutes />,
       children: [
         {
           index: true,
@@ -75,7 +81,7 @@ const useRoutesElement = () => {
           path: PATH.ADMIN_USER,
           element: (
             <AdminLayout>
-              <UserManagement></UserManagement>
+              <UserManagement />
             </AdminLayout>
           ),
         },
@@ -83,7 +89,7 @@ const useRoutesElement = () => {
           path: PATH.ADMIN_MOVIE,
           element: (
             <AdminLayout>
-              <Moviemanagement></Moviemanagement>
+              <Moviemanagement />
             </AdminLayout>
           ),
         },
@@ -91,7 +97,7 @@ const useRoutesElement = () => {
           path: PATH.ADMIN_CINEMA,
           element: (
             <AdminLayout>
-              <CinemaManagement></CinemaManagement>
+              <CinemaManagement />
             </AdminLayout>
           ),
         },
@@ -99,7 +105,7 @@ const useRoutesElement = () => {
           path: PATH.ADMIN_ACCOUNT_SETTINGS,
           element: (
             <AdminLayout>
-              <AccountSetting></AccountSetting>
+              <AccountSetting />
             </AdminLayout>
           ),
         },

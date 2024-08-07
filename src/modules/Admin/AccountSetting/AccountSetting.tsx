@@ -30,9 +30,9 @@ const AccountSetting = () => {
       })
       closeModal()
     },
-    onError: (error) => {
-      toast.error('Error adding user')
-      console.log('error: ', error)
+    onError: (error: any) => {
+      const errorMessage = error?.message || 'An unexpected error occurred'
+      toast.error(errorMessage)
     },
   })
 
