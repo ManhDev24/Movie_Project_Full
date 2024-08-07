@@ -13,7 +13,6 @@ import { PATH } from '../../../routes/path'
 
 const Profile = () => {
   const { currentUser } = useAppSelector((state) => state.user)
-  console.log('currentUser: ', currentUser)
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -31,16 +30,31 @@ const Profile = () => {
   const { mutate: handleEditUser, isPending: isEditing } = useMutation({
     mutationFn: userAPI.editUser,
     onSuccess: (data: UserItem) => {
-      dispatch(setUser(data))
-      setLocalStorage('user', data)
+      console.log('data: ', data)
+      toast.success('User edited successfully!')
+
+      const currentAccessToken = currentUser?.accessToken || localStorage.getItem('accessToken')
+      let maLoaiNguoiDung = data.maLoaiNguoiDung
+      if (maLoaiNguoiDung === 'Khách hàng') {
+        maLoaiNguoiDung = 'KhachHang'
+      } else if (maLoaiNguoiDung === 'Quản trị') {
+        maLoaiNguoiDung = 'QuanTri'
+      }
+      const updatedUser = {
+        taiKhoan: data.taiKhoan,
+        hoTen: data.hoTen,
+        email: data.email,
+        soDT: data.soDT,
+        maNhom: data.maNhom,
+        maLoaiNguoiDung,
+        accessToken: currentAccessToken,
+      }
+      dispatch(setUser(updatedUser))
+      setLocalStorage('user', updatedUser)
       queryClient.refetchQueries({
         queryKey: ['userInfo', currentUser?.taiKhoan],
         type: 'active',
       })
-      navigate(PATH.PROFILE)
-    },
-    onError: (error) => {
-      toast.error('Error updating user: ' + (error as Error).message)
     },
   })
 
@@ -49,6 +63,7 @@ const Profile = () => {
   }
 
   if (isError) {
+    console.log('isError: ', isError)
     return <div>Error loading user info</div>
   }
 

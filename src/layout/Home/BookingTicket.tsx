@@ -26,6 +26,7 @@ const BookingTicket = () => {
     enabled: !!selectedMovieId,
   })
 
+  console.log('movieDetails: ', movieDetails)
   useEffect(() => {
     if (data) {
       setTickets(data)
@@ -63,45 +64,57 @@ const BookingTicket = () => {
 
   const movieMenu = (
     <Menu
-      items={tickets.map((movie) => ({
-        key: movie.maPhim,
-        label: movie.tenPhim,
-        onClick: () => handleMovieSelect(movie),
-      }))}
+      items={
+        tickets.length > 0
+          ? tickets.map((movie) => ({
+              key: movie.maPhim,
+              label: movie.tenPhim,
+              onClick: () => handleMovieSelect(movie),
+            }))
+          : [{ key: 'empty', label: 'Vui lòng chọn phim', disabled: true }]
+      }
     />
   )
 
   const cinemaMenu = (
     <Menu
-      items={cinemas.map((cinema) => ({
-        key: cinema.key,
-        label: cinema.label,
-        onClick: () => {
-          setSelectedCinema(cinema.key)
-          const selectedCinemaDetails = movieDetails?.heThongRapChieu.find((c: any) => c.maHeThongRap === cinema.key)
-          if (selectedCinemaDetails) {
-            const showtimeList = selectedCinemaDetails.cumRapChieu.flatMap((cumRap: any) =>
-              cumRap.lichChieuPhim.map((showtime: any) => ({
-                key: showtime.maLichChieu,
-                label: moment(showtime.ngayChieuGioChieu).format('DD/MM/YYYY HH:mm'),
-              }))
-            )
-            setShowtimes(showtimeList)
-          }
-        },
-      }))}
+      items={
+        cinemas.length > 0
+          ? cinemas.map((cinema) => ({
+              key: cinema.key,
+              label: cinema.label,
+              onClick: () => {
+                setSelectedCinema(cinema.key)
+                const selectedCinemaDetails = movieDetails?.heThongRapChieu.find((c: any) => c.maHeThongRap === cinema.key)
+                if (selectedCinemaDetails) {
+                  const showtimeList = selectedCinemaDetails.cumRapChieu.flatMap((cumRap: any) =>
+                    cumRap.lichChieuPhim.map((showtime: any) => ({
+                      key: showtime.maLichChieu,
+                      label: moment(showtime.ngayChieuGioChieu).format('DD/MM/YYYY HH:mm'),
+                    }))
+                  )
+                  setShowtimes(showtimeList)
+                }
+              },
+            }))
+          : [{ key: 'empty', label: 'Trống', disabled: true }]
+      }
     />
   )
 
   const showtimeMenu = (
     <Menu
-      items={showtimes.map((showtime) => ({
-        key: showtime.key,
-        label: showtime.label,
-        onClick: () => {
-          setSelectedShowtime(showtime.label) // Update the selected showtime
-        },
-      }))}
+      items={
+        showtimes.length > 0
+          ? showtimes.map((showtime) => ({
+              key: showtime.key,
+              label: showtime.label,
+              onClick: () => {
+                setSelectedShowtime(showtime.label)
+              },
+            }))
+          : [{ key: 'empty', label: 'Trống', disabled: true }]
+      }
     />
   )
 
@@ -110,23 +123,25 @@ const BookingTicket = () => {
   }
 
   return (
-    <div className="flex justify-center items-center space-x-4 mt-4">
-      <Dropdown overlay={movieMenu} placement="bottomLeft" arrow>
-        <Button className="w-[300px] h-[50px] text-left">
-          <Typography.Text ellipsis>{selectedMovie}</Typography.Text>
-        </Button>
-      </Dropdown>
-      <Dropdown overlay={cinemaMenu} placement="bottomLeft" arrow>
-        <Button className="w-[300px] h-[50px] text-left">
-          <Typography.Text ellipsis>{selectedCinema || 'Chọn Rạp'}</Typography.Text>
-        </Button>
-      </Dropdown>
-      <Dropdown overlay={showtimeMenu} placement="bottomLeft" arrow>
-        <Button className="w-[300px] h-[50px] text-left">
-          <Typography.Text ellipsis>{selectedShowtime || 'Chọn Ngày'}</Typography.Text>
-        </Button>
-      </Dropdown>
-      <Button className="bg-red-500 text-white w-[150px] h-[50px]">MUA VÉ NGAY</Button>
+    <div className="flex flex-col items-center space-y-6 mt-6">
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+        <Dropdown overlay={movieMenu} placement="bottomLeft" arrow>
+          <Button className="w-[300px] h-[50px] text-left bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 transition">
+            <Typography.Text ellipsis>{selectedMovie}</Typography.Text>
+          </Button>
+        </Dropdown>
+        <Dropdown overlay={cinemaMenu} placement="bottomLeft" arrow>
+          <Button className="w-[300px] h-[50px] text-left bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 transition">
+            <Typography.Text ellipsis>{selectedCinema || 'Chọn Rạp'}</Typography.Text>
+          </Button>
+        </Dropdown>
+        <Dropdown overlay={showtimeMenu} placement="bottomLeft" arrow>
+          <Button className="w-[300px] h-[50px] text-left bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 transition">
+            <Typography.Text ellipsis>{selectedShowtime || 'Chọn Ngày'}</Typography.Text>
+          </Button>
+        </Dropdown>
+      </div>
+      <Button className="bg-red-500 text-white w-[200px] h-[50px] rounded-md shadow-md hover:bg-red-600 transition">MUA VÉ NGAY</Button>
     </div>
   )
 }
