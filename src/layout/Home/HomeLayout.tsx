@@ -48,6 +48,7 @@ const HomeLayout: React.FC = () => {
       <BannerCarousel banners={banners || []} />
       <BookingTicket />
       {movies && movies.items && <ListOfMovie movies={movies.items} totalMovies={movies.totalCount} currentPage={currentPage} setCurrentPage={setCurrentPage} count={movies.count} />}
+      
     </div>
   )
 }

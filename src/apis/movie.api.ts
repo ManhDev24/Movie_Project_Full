@@ -78,4 +78,12 @@ export const movieApi = {
       throw Error(error.response.data.content)
     }
   },
+  getMovieDetail: async(maPhim:any)=>{
+    try {
+      const response = await fetcher.get<ApiWelcome<any>>(`/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`)
+      return response.data.content
+    } catch (error: any) {
+      throw Error(error.response.data.content)
+    }
+  }
 }
