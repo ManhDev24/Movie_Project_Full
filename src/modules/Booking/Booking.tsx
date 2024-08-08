@@ -62,106 +62,115 @@ export default function Booking() {
       giaVe: ele.giaVe,
     }))
 
-      const submitData = {
-          maLichChieu: params.maLichChieu,
-          danhSachVe,
-      };
-      // console.log(submitData) ở đây lưu thông tin đặt vé gồm maLichChieu và danhSachVe   
-      
-      await bookingAPI.bookingTicketApi(submitData);
-      
-      notification.success({ message: 'Booking Successfully' });
-      navigate('/');
-  };
+    const submitData = {
+      maLichChieu: params.maLichChieu,
+      danhSachVe,
+      bookingTime: new Date().toISOString(),
+    }
+
+    console.log('submitData: ', submitData)
+
+    try {
+      await bookingAPI.bookingTicketApi(submitData)
+      dispatch(saveBookingData(submitData))
+
+      // Retrieve existing booking data from localStorage
+      const existingData = getLocalStorage<{ danhSachGhe: any[]; maLichChieu: any[]; bookingTime: string[] }>('bookingData') || { danhSachGhe: [], maLichChieu: [], bookingTime: [] }
+
+      existingData.danhSachGhe.push(...danhSachVe)
+      existingData.maLichChieu.push(params.maLichChieu)
+      existingData.bookingTime.push(submitData.bookingTime)
+
+      // Save updated data back to localStorage
+      setLocalStorage('bookingData', existingData)
+
+      notification.success({ message: 'Booking Successfully' })
+      navigate('/')
+    } catch (error) {
+      console.error('Error booking ticket:', error)
+      notification.error({ message: 'Booking Failed' })
+    }
+  }
 
   return roomList ? (
-      <div className='booking_wrapper'>
-          <div className="row mx-auto my-5">
-              <div className="col-lg-4 col-md-12">
-                  <div className="container booking_table">
-                      <h2 className="text-white">{roomList.thongTinPhim.tenPhim}</h2>
-                      <img
-                          className="pb-5"
-                          src={roomList.thongTinPhim.hinhAnh}
-                          alt="hinhPhim"
-                      />
-                      <div className='seat_note'>
-                          <div>
-                              <button className='standard'>
-                              </button>
-                              <span>Standard</span>
-                          </div>
-                          <div>
-                              <button className='Vip'>
-                              </button>
-                              <span>Vip</span>
-                          </div>
-                          <div>
-                              <button className='selecting'>
-                              </button>
-                              <span>Selecting</span>
-                          </div>
-                          <div>
-                              <button className='daDat'>
-                              </button>
-                              <span>Booked</span>
-                          </div>
-                      </div>
-
-                      <table className="table table-striped text-info">
-                          <thead>
-                              <tr>
-                                  <th>Type</th>
-                                  <th>Seat No.</th>
-                                  <th>Total</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td className="text-justify">Standard</td>
-                                  <td>{classifySeat('Thuong')}</td>
-                                  <td className="text-danger">
-                                      {danhSachGhe
-                                          .reduce((previousValue, currentValue) => {
-                                              previousValue += currentValue.giaVe;
-                                              return previousValue;
-                                          }, 0)
-                                          .toLocaleString()}
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>VIP</td>
-                                  <td>{classifySeat('Vip')}</td>
-                                  <td>
-                                      <button
-                                          onClick={handleBookingTicket}
-                                          className="book-btn"
-                                      >
-                                          Book
-                                      </button>
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-              <div className="col-lg-8 col-md-12 seatList ">
-                  <div className='screen'></div>
-                  <div className='seatListContainer pt-5'>
-                      {roomList.danhSachGhe.map((ele, idx) => {
-                          return (
-                              <React.Fragment key={ele.tenGhe}>
-                                  <Chair handleSelect={handleSelect} item={ele} />
-                                  {(idx + 1) % 16 === 0 && <br />}
-                              </React.Fragment>
-                          );
-                      })}
-                  </div>
-              </div>
+    <div className="booking_wrapper">
+      <div className="flex">
+      <div className="w-75_percent">
+          <div className="screen1 flex justify-center">
+            <img src="../../../public/img/screen.png" alt="" />
+          </div>
+          <div className="seatListContainer pt-5">
+            {roomList.danhSachGhe.map((ele, idx) => {
+              return (
+                <React.Fragment key={ele.tenGhe}>
+                  <Chair handleSelect={handleSelect} item={ele} />
+                  {(idx + 1) % 16 === 0 && <br />}
+                </React.Fragment>
+              )
+            })}
           </div>
       </div>
-  ) : (
-      "Bạn chưa chọn ghế"
+      <div className="w-25_percent">
+        <div className="container booking_table text-center flex flex-column justify-center">
+          <h2 className="text-white">{roomList.thongTinPhim.tenPhim}</h2>
+          <img className="pb-5" src={roomList.thongTinPhim.hinhAnh} alt="hinhPhim" />
+          <div className="seat_note flex">
+            <div>
+              <button className="standard"></button>
+              <span>Standard</span>
+            </div>
+            <div>
+              <button className="Vip"></button>
+              <span>Vip</span>
+            </div>
+            <div>
+              <button className="selecting"></button>
+              <span>Selecting</span>
+            </div>
+            <div>
+              <button className="daDat"></button>
+              <span>Booked</span>
+            </div>
+          </div>
 
-  );
+          <table className="table table-striped text-info">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Seat No.</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="text-justify">Standard</td>
+                <td>{classifySeat('Thuong')}</td>
+                <td className="text-danger">
+                  {danhSachGhe
+                    .reduce((previousValue, currentValue) => {
+                      previousValue += currentValue.giaVe
+                      return previousValue
+                    }, 0)
+                    .toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <td>VIP</td>
+                <td>{classifySeat('Vip')}</td>
+                <td>
+                  <button onClick={handleBookingTicket} className="button-27">
+                    Book
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+       
+      </div>
+    </div>
+  ) : (
+    'Bạn chưa chọn ghế'
+  )
 }
