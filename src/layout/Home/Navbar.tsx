@@ -25,7 +25,7 @@ const Navbar = () => {
         <Link to={PATH.PROFILE}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="history">
-        <Link to="#">Purchase</Link>
+        <Link to={PATH.PURCHASE}>Purchase</Link>
       </Menu.Item>
       <Menu.Item key="signout">
         <a onClick={signOutUser}>Sign Out</a>
