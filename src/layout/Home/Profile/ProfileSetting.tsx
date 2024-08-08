@@ -73,9 +73,9 @@ const ProfileSetting: FC<ProfileSettingProps> = ({ DataOfUser, handleEditUser })
             <Link to={PATH.PROFILE} className="flex items-center px-3 py-2.5 font-bold bg-white text-indigo-900 border rounded-full">
               Edit Profile
             </Link>
-            <a href="#" className="flex items-center px-3 py-2.5 font-semibold hover:text-indigo-900 hover:border hover:rounded-full">
+            <Link to={PATH.PURCHASE} className="flex items-center px-3 py-2.5 font-semibold hover:text-indigo-900 hover:border hover:rounded-full">
               History Purchase
-            </a>
+            </Link>
           </div>
         </aside>
         <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-3/4">

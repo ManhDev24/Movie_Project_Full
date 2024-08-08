@@ -34,7 +34,7 @@ const Navbar = () => {
   )
 
   return (
-    <div className="navbar relative">
+    <div className="navbar relative" id="navbar">
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link to={PATH.HOME} className="flex items-center space-x-3 rtl:space-x-reverse">
