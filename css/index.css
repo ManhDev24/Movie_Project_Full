@@ -1,20 +1,243 @@
-.seat:hover {
-  transform: translateY(-5px);
+.base-seat, .booking_wrapper .daDat, .booking_wrapper .selecting, .booking_wrapper .Vip, .booking_wrapper .standard {
+  background-color: pink;
+  font-size: 1rem;
+  border: solid 2px rgba(0, 0, 0, 0.105);
+  border-radius: 20px 20px 5px 5px;
+  width: 3em;
+  height: 2em;
+  padding: 0.3em;
+  margin: 0.4em;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.my-btn:hover, .booking_wrapper .booking_table .book-btn:hover {
+  color: #d819a5;
+  background-color: white;
+  box-shadow: 0 0 0 1px #d819a5 inset;
+}
+
+@media screen and (max-width: 768px) {
+  .my-btn, .booking_wrapper .booking_table .book-btn {
+    font-size: 0.8rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  .my-btn, .booking_wrapper .booking_table .book-btn {
+    font-size: 0.5rem;
+  }
+}
+.booking_wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 9;
+}
+.booking_wrapper .standard {
+  background-color: pink;
+}
+.booking_wrapper .Vip {
+  background-color: violet;
+}
+.booking_wrapper .selecting {
+  background-color: rgba(78, 156, 78, 0.655);
+}
+.booking_wrapper .daDat {
   background-color: rgb(68, 192, 32);
 }
-.seat:focus {
-  outline: 0;
+.booking_wrapper .booking_table h2 {
+  text-align: center;
 }
-.seat.Vip {
-  background-color: rgb(247, 181, 0);
+.booking_wrapper .booking_table img {
+  width: 100%;
 }
-.seat.Vip:hover {
-  background-color: rgb(68, 192, 32);
+.booking_wrapper .booking_table .book-btn {
+  box-shadow: 0 0 0 4.8rem rgba(73, 228, 88, 0.8784313725) inset;
 }
-.seat.selecting {
-  background-color: rgb(68, 192, 32);
+
+.seatList {
+  width: 975px;
+  overflow-x: hidden;
 }
-.seat.daDat {
-  background-color: rgb(153, 197, 255);
-  cursor: no-drop;
+
+.seatListContainer {
+  width: 100%;
+}
+
+.booking_wrapper {
+  width: 100%;
+  text-align: center;
+  background-color: black;
+  z-index: 9;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.booking_wrapper .Vip {
+  background-color: violet;
+}
+
+.booking_wrapper .selecting {
+  background-color: rgba(78, 156, 78, 0.655);
+}
+
+.booking_wrapper .daDat {
+  background-color: red;
+}
+
+.booking_wrapper .booking_table h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: unset;
+  background: -webkit-linear-gradient(#0561a9, #7359c5, #d819a5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media screen and (max-width: 992px) {
+  .booking_wrapper .booking_table h2 {
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .booking_wrapper .booking_table h2 {
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  .booking_wrapper .booking_table h2 {
+    font-size: 1rem;
+  }
+}
+.booking_wrapper .booking_table img {
+  width: 100%;
+}
+
+.booking_wrapper .booking_table .book-btn {
+  box-shadow: 0 0 0 4.8rem rgba(73, 228, 88, 0.8784313725) inset;
+}
+
+.booking_wrapper .screen {
+  background-image: url("../../../public/img/background.jpg");
+  width: 100%;
+  background-repeat: no-repeat;
+  height: 45px;
+  margin: 20px auto 40px;
+  background-size: 100% auto;
+  filter: drop-shadow(4px 25px 20px rgba(194, 190, 190, 0.5));
+  box-shadow: 0px 34px 51px -8px rgb(117, 105, 105);
+}
+
+.screen1 {
+  background-image: url("../../../public/img/bg-screen.png");
+  width: 100%;
+  background-repeat: no-repeat;
+  height: 60px;
+  margin: 20px auto 40px;
+  background-size: 100% auto;
+  filter: drop-shadow(4px 25px 20px rgba(194, 190, 190, 0.5));
+  box-shadow: 0px 34px 51px -8px rgb(117, 105, 105);
+}
+
+.booking_wrapper .seatList {
+  width: 975px;
+  overflow-x: hidden;
+}
+
+.booking_wrapper .seatList .seatListContainer {
+  width: 100%;
+}
+
+.header .btn__display h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+  color: #d819a5;
+}
+
+@media screen and (max-width: 992px) {
+  .header .btn__display h1 {
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .header .btn__display h1 {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  .header .btn__display h1 {
+    font-size: 1rem;
+  }
+}
+.header .btn__display h1 sup {
+  cursor: pointer;
+}
+
+.header.fixed {
+  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
+  padding: 5px 80px !important;
+  background-color: #ece9f7;
+}
+
+.wrapper {
+  position: relative;
+  height: 80px;
+}
+
+.seat {
+  font-size: 1rem;
+  border: solid 2px rgba(0, 0, 0, 0.105);
+  border-radius: 20px 20px 5px 5px;
+  width: 3em;
+  height: 2em;
+  padding: 0.3em;
+  margin: 0.4em;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+/* CSS */
+.button-27 {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #000000;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  will-change: transform;
+}
+
+.button-27:disabled {
+  pointer-events: none;
+}
+
+.button-27:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-27:active {
+  box-shadow: none;
+  transform: translateY(0);
 }/*# sourceMappingURL=index.css.map */

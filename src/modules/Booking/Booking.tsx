@@ -67,19 +67,38 @@ export default function Booking() {
       notification.success({ message: 'Booking Successfully' });
       navigate('/');
   };
-
+  
   return roomList ? (
       <div className='booking_wrapper'>
-          <div className="row mx-auto my-5">
-              <div className="col-lg-4 col-md-12">
+          <div className="flex mx-auto">
+              <div className="col-lg-8 col-md-12 seatList " style={{flex: "75%"}}>
+                  <div className='screen'></div>
+                  
+                  <div className='seatListContainer pt-5'>
+                      <div className="screen1 flex justify-center">
+                        <img className="img-fluid" src="./../../public/img/screen.png" alt="" /> 
+                      </div>
+                      {roomList.danhSachGhe.map((ele, idx) => {
+                        const first = ele === 0;
+
+                          return (
+                              <React.Fragment key={ele.tenGhe}>
+                                  <Chair handleSelect={handleSelect} item={ele} />
+                                  {(idx + 1) % 16 === 0 && <br />}
+                              </React.Fragment>
+                          );
+                      })}
+                  </div>
+              </div>
+              <div className="col-lg-4 col-md-12" style={{flex: "25%"}}>
                   <div className="container booking_table">
                       <h2 className="text-white">{roomList.thongTinPhim.tenPhim}</h2>
                       <img
-                          className="pb-5"
+                          className="pb-5 img-fluid"
                           src={roomList.thongTinPhim.hinhAnh}
                           alt="hinhPhim"
                       />
-                      <div className='seat_note'>
+                      <div className='seat_note flex'>
                           <div>
                               <button className='standard'>
                               </button>
@@ -129,7 +148,7 @@ export default function Booking() {
                                   <td>
                                       <button
                                           onClick={handleBookingTicket}
-                                          className="book-btn"
+                                          className="button-27"
                                       >
                                           Book
                                       </button>
@@ -139,23 +158,11 @@ export default function Booking() {
                       </table>
                   </div>
               </div>
-              <div className="col-lg-8 col-md-12 seatList ">
-                  <div className='screen'></div>
-                  <div className='seatListContainer pt-5'>
-                      {roomList.danhSachGhe.map((ele, idx) => {
-                          return (
-                              <React.Fragment key={ele.tenGhe}>
-                                  <Chair handleSelect={handleSelect} item={ele} />
-                                  {(idx + 1) % 16 === 0 && <br />}
-                              </React.Fragment>
-                          );
-                      })}
-                  </div>
-              </div>
+              
           </div>
       </div>
-  ) : (
-      "Bạn chưa chọn ghế"
+        ) : (
+            "Bạn chưa chọn ghế"
 
-  );
+        );
 }

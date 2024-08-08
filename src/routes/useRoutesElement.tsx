@@ -21,6 +21,13 @@ const RejectedRoutes = () => {
   }
   return currentUser.maLoaiNguoiDung === 'QuanTri' ? <Navigate to={PATH.ADMIN} /> : <Navigate to={PATH.HOME} />
 }
+const RejectedRoutesBooking = () => {
+  const { currentUser } = useAppSelector((state) => state.user)
+  if (currentUser === null) {
+    return <Outlet />
+  }
+  return currentUser.maLoaiNguoiDung === 'KhachHang' || currentUser.maLoaiNguoiDung === 'QuanTri'  ? <Navigate to={PATH.MOVIE_DETAILS} /> : <Navigate to={PATH.HOME} />
+}
 
 const ProtectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -53,8 +60,37 @@ const useRoutesElement = () => {
     },
     {
       path: PATH.BOOKING,
-      element:<Booking/>
+      element: <Booking />,
+      
     },
+    {
+      path:PATH.HOME,
+      element:<RejectedRoutesBooking/>,
+      children:[
+        {
+          path: PATH.LOGIN,
+          element: (
+            <AuthenLayout>
+              <Login />
+            </AuthenLayout>
+          ),
+        }
+      ]
+    },
+    // {
+    //   path:PATH.MOVIE_DETAILS,
+    //   element:<RejectedRoutesBooking/>,
+    //   children:[
+    //     {
+    //       path: PATH.LOGIN,
+    //       element: (
+    //         <AuthenLayout>
+    //           <Login />
+    //         </AuthenLayout>
+    //       ),
+    //     }
+    //   ]
+    // },
     {
       path: 'auth',
       element: <RejectedRoutes />,

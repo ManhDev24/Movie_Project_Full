@@ -89,6 +89,7 @@ export const movieApi = {
   getTheaterByMovieShow:async(maPhim:any)=>{
     try {
       const response = await fetcher.get<ApiWelcome<any>>(`/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`)
+      console.log(response.data.content);
       return response.data.content
     } catch (error: any) {
       throw Error(error.response.data.content)

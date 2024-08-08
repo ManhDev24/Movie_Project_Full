@@ -121,7 +121,7 @@ const MovieDetail: React.FC = () => {
                   {detailId.tenPhim}
                 </p>
                 <p className="movieDetail__detail-descript">{detailId.moTa}</p>
-                <Button className="movieDetail__detail-btnInfo uppercase font-semibold">
+                <Button  className="movieDetail__detail-btnInfo uppercase font-semibold">
                   Mua vé
                 </Button>
               </div>
@@ -349,7 +349,7 @@ const MovieDetail: React.FC = () => {
                               </div>
                               <div
                                 className="MuiCollapse-container MuiCollapse-entered"
-                                style={{ minHeight: 180 }}
+                                style={{ minHeight: 220 }}
                               >
                                 <div className="MuiCollapse-wrapper">
                                   <div className="MuiCollapse-wrapperInner">
