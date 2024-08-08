@@ -7,24 +7,25 @@ import Chair from '../Chair/Chair';
 export default function Booking() {
   const [danhSachGhe, setDanhSachGhe] = useState([]);
   const [roomList, setRoomList] = useState();
+  const [submitDataValue,setSubmitDataValue]=useState([]);
   const params = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
       fetchRoomList();
-  }, []);
+  }, [params.maLichChieu]);
 
   const fetchRoomList = async () => {
       const result = await bookingAPI.bookingList(params.maLichChieu);
-
+      
       setRoomList(result);
   };
 
-  const handleSelect = (selectedChair) => {
+  const handleSelect = (selectedChair:any) => {
       const data = [...danhSachGhe];
-
+     
       const idx = data.findIndex((ele) => ele.tenGhe === selectedChair.tenGhe);
-
+      
       if (idx !== -1) {
           data.splice(idx, 1);
       } else {
@@ -34,7 +35,7 @@ export default function Booking() {
       setDanhSachGhe(data);
   };
 
-  const classifySeat = (type) => {
+  const classifySeat = (type:any) => {
       return danhSachGhe.map((ele, idx) => {
           if (ele.loaiGhe === type) {
               return (
@@ -59,9 +60,10 @@ export default function Booking() {
           maLichChieu: params.maLichChieu,
           danhSachVe,
       };
-
+      // console.log(submitData) ở đây lưu thông tin đặt vé gồm maLichChieu và danhSachVe   
+      
       await bookingAPI.bookingTicketApi(submitData);
-
+      
       notification.success({ message: 'Booking Successfully' });
       navigate('/');
   };
