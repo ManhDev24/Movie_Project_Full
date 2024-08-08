@@ -18,6 +18,12 @@ interface FormattedData {
   cinemaAddress?: string
   movieTitle?: string
   movieImage?: string
+  movieStartDate?: string
+  movieStartHour?: string
+  chairName?: string[]
+  loaiGhe?: string[]
+  maRap?: string
+  taiKhoanNguoiDat?: string
 }
 
 const PurchaseHistory: React.FC = () => {
@@ -25,6 +31,7 @@ const PurchaseHistory: React.FC = () => {
   console.log('formattedData: ', formattedData)
   const [showtimeCodes, setShowtimeCodes] = useState<number[]>([])
   const [showroomDetails, setShowroomDetails] = useState<{ [key: number]: any }>({})
+  console.log('showroomDetails: ', showroomDetails)
 
   // Fetch room details for each showtimeCode
   const {
@@ -42,7 +49,6 @@ const PurchaseHistory: React.FC = () => {
     },
     enabled: showtimeCodes.length > 0,
   })
-  console.log('roomDetailsData: ', roomDetailsData)
 
   useEffect(() => {
     const bookingData = getLocalStorage<{ danhSachGhe: any[]; maLichChieu: number[]; bookingTime: string[] }>('bookingData') || { danhSachGhe: [], maLichChieu: [], bookingTime: [] }
@@ -71,14 +77,26 @@ const PurchaseHistory: React.FC = () => {
   useEffect(() => {
     if (roomDetailsData) {
       setShowroomDetails(roomDetailsData)
-      const updatedData = formattedData.map((item) => ({
-        ...item,
-        cinemaName: roomDetailsData[item.showtimeCode]?.thongTinPhim.tenCumRap,
-        cinemaAddress: roomDetailsData[item.showtimeCode]?.thongTinPhim.diaChi,
-        movieTitle: roomDetailsData[item.showtimeCode]?.thongTinPhim.tenPhim,
-        movieImage: roomDetailsData[item.showtimeCode]?.thongTinPhim.hinhAnh,
-      }))
-      console.log('updatedData: ', updatedData)
+
+      const updatedData = formattedData.map((item) => {
+        const chairs = roomDetailsData[item.showtimeCode]?.danhSachGhe || []
+        const chairNames = item.seats.map((seatId) => {
+          const chair = chairs.find((chair) => chair.maGhe === seatId)
+          return chair ? chair.tenGhe : 'Không tìm thấy'
+        })
+
+        return {
+          ...item,
+          cinemaName: roomDetailsData[item.showtimeCode]?.thongTinPhim.tenCumRap,
+          cinemaAddress: roomDetailsData[item.showtimeCode]?.thongTinPhim.diaChi,
+          movieTitle: roomDetailsData[item.showtimeCode]?.thongTinPhim.tenPhim,
+          movieImage: roomDetailsData[item.showtimeCode]?.thongTinPhim.hinhAnh,
+          movieStartDate: roomDetailsData[item.showtimeCode]?.thongTinPhim.ngayChieu,
+          movieStartHour: roomDetailsData[item.showtimeCode]?.thongTinPhim.gioChieu,
+          chairName: chairNames,
+        }
+      })
+
       setFormattedData(updatedData)
     }
   }, [roomDetailsData])
@@ -90,16 +108,20 @@ const PurchaseHistory: React.FC = () => {
       key: 'showtimeCode',
     },
     {
-      title: 'Seats',
-      dataIndex: 'seats',
-      key: 'seats',
-      render: (seats: string[]) => (
+      title: 'Chair Name',
+      dataIndex: 'chairName',
+      key: 'chairName',
+      render: (chairNames: string[] = []) => (
         <div>
-          {seats.map((seat) => (
-            <Tag key={seat} color="blue">
-              {seat}
-            </Tag>
-          ))}
+          {chairNames.length > 0 ? (
+            chairNames.map((name) => (
+              <Tag key={name} color="blue">
+                {name}
+              </Tag>
+            ))
+          ) : (
+            <Tag color="grey">No Chairs</Tag>
+          )}
         </div>
       ),
     },
@@ -157,7 +179,7 @@ const PurchaseHistory: React.FC = () => {
       <div className="flex-1 mt-4">
         <h2 className="text-3xl text-red-500 text-center mb-4">Purchase History</h2>
         <div className="h-full">
-          <Table rowKey="key" columns={columns} dataSource={formattedData} pagination={false} />
+          {formattedData.length === 0 ? <Alert message="No purchase history found" type="info" showIcon /> : <Table rowKey="key" columns={columns} dataSource={formattedData} pagination={false} />}
         </div>
       </div>
     </>
