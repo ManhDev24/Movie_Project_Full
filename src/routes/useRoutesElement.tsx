@@ -13,6 +13,7 @@ import { HomeLayout } from '../layout/Home'
 import { ProfileUser } from '../layout/Home/Profile'
 import { MovieDetail } from '../modules/MovieDetail'
 import { Booking } from '../modules/Booking'
+import PurchaseHistory from '../layout/Home/PurchaseHistory'
 
 const RejectedRoutes = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -56,12 +57,10 @@ const useRoutesElement = () => {
     {
       path: PATH.MOVIE_DETAILS,
       element: <MovieDetail />,
-      
     },
     {
       path: PATH.BOOKING,
-      element: <Booking />,
-      
+      element:<Booking/>
     },
     {
       path:PATH.HOME,
