@@ -20,6 +20,7 @@ interface CinemaDetail {
     tenCumRap: string
     diaChi: string
     danhSachPhim: {
+      maPhim: string
       hinhAnh: string
       tenPhim: string
       lstLichChieuTheoPhim: {
@@ -32,7 +33,7 @@ interface CinemaDetail {
 const ListOfCinema = () => {
   const [selectedTheaterSystem, setSelectedTheaterSystem] = useState<string | null>(null)
   const [selectedCinema, setSelectedCinema] = useState<string | null>(null)
-  const navigate = useNavigate();
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const options = { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' }
@@ -79,7 +80,7 @@ const ListOfCinema = () => {
 
   const handleTheaterSystemChange = (key: string) => {
     setSelectedTheaterSystem(key)
-    const selectedCinemas = cinemasDetails.find((detail) => detail.tenCumRap === selectedCinema)
+    const selectedCinemas = cinemasDetails.find((detail: any) => detail.tenCumRap === selectedCinema)
     if (selectedCinemas && selectedCinemas.lstCumRap.length > 0) {
       setSelectedCinema(selectedCinemas.lstCumRap[0].tenCumRap)
     }
@@ -141,7 +142,7 @@ const ListOfCinema = () => {
                               </Title>
                               <Paragraph className="text-gray-600 mb-2">{formatDate(film.lstLichChieuTheoPhim[0]?.ngayChieuGioChieu || '')}</Paragraph>
                             </div>
-                            <Button onClick={()=> navigate(`/movie-details/${filmIdx}`)} type="primary" className="self-start mt-2 ">
+                            <Button type="primary" className="self-start mt-2 ">
                               More Details
                             </Button>
                           </div>
