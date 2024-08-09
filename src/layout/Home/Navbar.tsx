@@ -61,13 +61,13 @@ const Navbar = () => {
                 <li className="flex space-x-3 md:space-x-8">
                   <Link
                     to={PATH.LOGIN}
-                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
+                    className="block py-2 px-3  bg-blue-700 rounded md:bg-transparent  md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
                   >
                     Đăng nhập
                   </Link>
                   <Link
                     to={PATH.REGISTER}
-                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
+                    className="block py-2 px-3  bg-blue-700 rounded md:bg-transparent  md:p-0 md:dark:text-white transition-all duration-300 ease-in-out hover:text-blue-700"
                   >
                     Đăng Ký
                   </Link>

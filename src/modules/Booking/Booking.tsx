@@ -111,10 +111,10 @@ export default function Booking() {
           </div>
       </div>
       <div className="w-25_percent">
-        <div className="container booking_table text-center flex flex-column justify-center">
+        <div className="container booking_table addFlex ">
           <h2 className="text-white">{roomList.thongTinPhim.tenPhim}</h2>
           <img className="pb-5" src={roomList.thongTinPhim.hinhAnh} alt="hinhPhim" />
-          <div className="seat_note flex">
+          <div className="seat_note flex flex flex-column justify-center align-items-center">
             <div>
               <button className="standard"></button>
               <span>Standard</span>

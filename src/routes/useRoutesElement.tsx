@@ -27,7 +27,7 @@ const RejectedRoutesBooking = () => {
   if (currentUser === null) {
     return <Outlet />
   }
-  return currentUser.maLoaiNguoiDung === 'KhachHang' || currentUser.maLoaiNguoiDung === 'QuanTri'  ? <Navigate to={PATH.MOVIE_DETAILS} /> : <Navigate to={PATH.HOME} />
+  return currentUser.maLoaiNguoiDung === 'KhachHang' || currentUser.maLoaiNguoiDung === 'QuanTri'  ? <Navigate to={PATH.HOME} /> : <Navigate to={PATH.HOME} />
 }
 
 const ProtectedRoutes = () => {
@@ -61,6 +61,10 @@ const useRoutesElement = () => {
     {
       path: PATH.BOOKING,
       element:<Booking/>
+    },
+    {
+      path: PATH.PURCHASE,
+      element:<PurchaseHistory/>
     },
     {
       path:PATH.HOME,

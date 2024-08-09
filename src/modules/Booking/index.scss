@@ -306,3 +306,9 @@ box-shadow: 0 0 0 1px #d819a5 inset;
 .w-25_percent{
   width: 25%;
 }
+.addFlex{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

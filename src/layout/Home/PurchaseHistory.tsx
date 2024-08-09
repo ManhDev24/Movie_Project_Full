@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Spin, Alert } from 'antd'
+import { Table, Tag, Alert } from 'antd'
 import Navbar from './Navbar'
 import { getLocalStorage } from '../../utils'
 import moment from 'moment'
@@ -81,7 +81,7 @@ const PurchaseHistory: React.FC = () => {
       const updatedData = formattedData.map((item) => {
         const chairs = roomDetailsData[item.showtimeCode]?.danhSachGhe || []
         const chairNames = item.seats.map((seatId) => {
-          const chair = chairs.find((chair) => chair.maGhe === seatId)
+          const chair = chairs.find((chair:any) => chair.maGhe === seatId)
           return chair ? chair.tenGhe : 'Không tìm thấy'
         })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Slider from 'react-slick'
-import styles from './App.module.css'
+//import styles from './App.module.css'
 import 'antd/dist/antd.css'
 
 const App: React.FC = () => {
