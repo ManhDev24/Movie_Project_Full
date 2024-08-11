@@ -94,7 +94,7 @@ const ListOfCinema = () => {
     return <Alert message="Error loading cinema data" type="error" description={(isListOfCinemaError ? errorTheaterSystems?.message : '') || (isErrorCinemas ? errorCinemas?.message : '')} />
   }
   const handleMovieDetail = (id: string) => {
-    navigate(`/movie-details/film.${id}`)
+    navigate(`/movie-details/${id}`)
   }
 
   return (
@@ -145,7 +145,7 @@ const ListOfCinema = () => {
                               </Title>
                               <Paragraph className="text-gray-600 mb-2">{formatDate(film.lstLichChieuTheoPhim[0]?.ngayChieuGioChieu || '')}</Paragraph>
                             </div>
-                            <Button onClick={() => handleMovieDetail(film.maPhm)} type="primary" className="self-start mt-2 ">
+                            <Button onClick={() => handleMovieDetail(film.maPhim)} type="primary" className="self-start mt-2">
                               More Details
                             </Button>
                           </div>
