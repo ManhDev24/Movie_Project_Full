@@ -348,8 +348,8 @@ const MovieDetail: React.FC = () => {
                                 </div>
                               </div>
                               <div
-                                className="MuiCollapse-container MuiCollapse-entered"
-                                style={{ minHeight: 220 }}
+                                className="MuiCollapse-container MuiCollapse-entered h_100"
+                                
                               >
                                 <div className="MuiCollapse-wrapper">
                                   <div className="MuiCollapse-wrapperInner">

@@ -31,9 +31,9 @@ interface CinemaDetail {
 }
 
 const ListOfCinema = () => {
-  const [selectedTheaterSystem, setSelectedTheaterSystem] = useState<string | undefined>(undefined)
-  const [selectedCinema, setSelectedCinema] = useState<string | undefined>(undefined)
-  const navigate = useNavigate()
+  const [selectedTheaterSystem, setSelectedTheaterSystem] = useState<string | null>(null)
+  const [selectedCinema, setSelectedCinema] = useState<string | null>(null)
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const options = { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' }
@@ -145,7 +145,10 @@ const ListOfCinema = () => {
                               </Title>
                               <Paragraph className="text-gray-600 mb-2">{formatDate(film.lstLichChieuTheoPhim[0]?.ngayChieuGioChieu || '')}</Paragraph>
                             </div>
+
                             <Button onClick={() => handleMovieDetail(film.maPhm)} type="primary" className="self-start mt-2 ">
+
+
                               More Details
                             </Button>
                           </div>
