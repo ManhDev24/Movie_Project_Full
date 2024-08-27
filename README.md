@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c6e12a23-9a1a-45ff-b5c7-bcd9f2ad1a31)# React + TypeScript + Vite
+# React + TypeScript + Vite
 Phân công công việc :
 https://docs.google.com/spreadsheets/d/1ubcFsiL3ZaEU4Z1p_5hJO7O1lUa6zfKQPAiaOCjrxM8/edit?gid=873983728#gid=873983728
 
